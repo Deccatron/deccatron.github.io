@@ -18,12 +18,7 @@
 }
 
 body {
-    background: 
-        linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(33, 150, 243, 0.1) 100%),
-        radial-gradient(circle at top left, rgba(255, 193, 7, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at bottom right, rgba(233, 30, 99, 0.1) 0%, transparent 50%),
-        linear-gradient(135deg, var(--dark-bg), #2d2d2d);
-    background-attachment: fixed;
+    background: linear-gradient(135deg, var(--dark-bg), #2d2d2d);
     color: var(--light-text);
     line-height: 1.6;
     font-size: 16px;
@@ -42,28 +37,27 @@ header {
 
 nav {
     display: flex;
-    justify-content: space-between; /* Ensures logo at start, links at end */
+    justify-content: space-between;
     align-items: center;
-    max-width: 100%; /* Ensure full width of nav spans the header */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
 }
 
-.logo a {
+.logo {
     font-size: 2.2rem;
     font-weight: bold;
     color: var(--accent-color);
-    text-decoration: none;
     display: flex;
     align-items: center;
     gap: 0.5rem;
     text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
-    padding: 0 2rem; /* Optional: Ensure some padding around the logo */
 }
 
 .nav-links {
     display: flex;
     gap: 2rem;
     align-items: center;
-    margin-right: 2rem; /* Optional: Add padding on the right to offset the logo's left padding */
 }
 
 .nav-links a {
@@ -180,16 +174,8 @@ h1 {
 #jackpot-counter {
     font-size: 3.5rem;
     font-weight: bold;
-    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: pulse 5s infinite;
+    color: var(--primary-color);
     text-shadow: 0 0 20px rgba(76, 175, 80, 0.7);
-}
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
 }
 
 /* CTA Buttons */
@@ -208,22 +194,6 @@ h1 {
     transition: var(--transition);
     text-transform: uppercase;
     letter-spacing: 1px;
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-}
-
-.cta-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transform: translateX(-100%);
-    animation: shimmer 3s infinite;
-    z-index: -1;
 }
 
 .cta-button.primary {
@@ -249,14 +219,45 @@ h1 {
     background: #1c87e0;
 }
 
-@keyframes shimmer {
-    100% { transform: translateX(100%); }
+/* Floating Elements */
+.floating-elements {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
 }
 
-/* Enhanced Card Styles */
+.floating-card {
+    position: absolute;
+    font-size: 6rem;
+    opacity: 0.15;
+    animation: float 8s infinite;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+}
+
+.card-1 { top: 20%; left: 10%; animation-delay: 0s; color: #ff6b6b;}
+.card-2 { top: 40%; right: 10%; animation-delay: 2s; color: #4ecdc4;}
+.card-3 { bottom: 30%; left: 15%; animation-delay: 4s; color: #ff6b6b;}
+.card-4 { bottom: 20%; right: 15%; animation-delay: 6s; color: #4ecdc4;}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-30px) rotate(5deg); }
+}
+
+/* Features Section */
+.features {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+}
+
 .feature {
-    position: relative;
-    overflow: hidden;
     text-align: center;
     flex: 1;
     min-width: 250px;
@@ -368,6 +369,16 @@ footer {
     }
 }
 
+/* Enhanced Background */
+body {
+    background: 
+        linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(33, 150, 243, 0.1) 100%),
+        radial-gradient(circle at top left, rgba(255, 193, 7, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at bottom right, rgba(233, 30, 99, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, var(--dark-bg), #2d2d2d);
+    background-attachment: fixed;
+}
+
 /* Glowing Orbs */
 .glowing-orbs {
     position: fixed;
@@ -414,32 +425,38 @@ footer {
     100% { transform: translate(-70px, -70px); }
 }
 
-/* Floating Elements */
-.floating-elements {
+/* Enhanced Card Styles */
+.feature {
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes rotate {
+    100% { transform: rotate(360deg); }
+}
+
+/* Animated Border for CTA Buttons */
+.cta-button {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.cta-button::before {
+    content: '';
     position: absolute;
-    width: 100%;
-    height: 100%;
     top: 0;
     left: 0;
-    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: translateX(-100%);
+    animation: shimmer 3s infinite;
+    z-index: -1;
 }
 
-.floating-card {
-    position: absolute;
-    font-size: 6rem;
-    opacity: 0.15;
-    animation: float 8s infinite;
-    filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
-}
-
-.card-1 { top: 20%; left: 10%; animation-delay: 0s; color: #ff6b6b;}
-.card-2 { top: 40%; right: 10%; animation-delay: 2s; color: #4ecdc4;}
-.card-3 { bottom: 30%; left: 15%; animation-delay: 4s; color: #ff6b6b;}
-.card-4 { bottom: 20%; right: 15%; animation-delay: 6s; color: #4ecdc4;}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0) rotate(0); }
-    50% { transform: translateY(-30px) rotate(5deg); }
+@keyframes shimmer {
+    100% { transform: translateX(100%); }
 }
 
 /* Particle Effect */
@@ -460,7 +477,21 @@ footer {
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 50%;
 }
+
 /* Add more particle styles in your JavaScript */
+
+/* Enhanced Jackpot Counter */
+#jackpot-counter {
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: pulse 5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
 
 /* Hover Effect for Navigation Links */
 .nav-links a:not(.nav-cta) {
