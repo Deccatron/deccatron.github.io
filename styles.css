@@ -57,7 +57,7 @@ nav {
     align-items: center;
     gap: 0.5rem;
     text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
-    margin-left: auto; /* Moves the logo to the far right */
+    margin-left: auto /* Moves the logo to the far right */
 }
 
 .nav-links {
