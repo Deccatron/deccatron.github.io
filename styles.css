@@ -58,7 +58,7 @@ nav {
     align-items: center;
     gap: 0.5rem;
     text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
-    margin-right: auto; /* Ensures logo is aligned left */
+    margin-left: auto; 
 }
 
 
