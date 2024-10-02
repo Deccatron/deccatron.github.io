@@ -57,14 +57,13 @@ nav {
     align-items: center;
     gap: 0.5rem;
     text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
-    margin-right: auto; /* Moves the logo to the far right */
+    margin-right: auto; /* Removes unnecessary space ensuring the logo starts at the far left */
 }
 
 .nav-links {
     display: flex;
     gap: 2rem;
     align-items: center;
-    margin-right: auto; /* Moves navigation links to the left */
 }
 
 .nav-links a {
