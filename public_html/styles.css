@@ -1,0 +1,515 @@
+/* Enhanced CSS for Professional and Attractive Design */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', 'Arial', sans-serif;
+}
+
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #2196F3;
+    --accent-color: #FFC107;
+    --dark-bg: #1a1a1a;
+    --light-text: #ffffff;
+    --transition: all 0.3s ease-in-out;
+}
+
+body {
+    background: linear-gradient(135deg, var(--dark-bg), #2d2d2d);
+    color: var(--light-text);
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+/* Header and Navigation */
+header {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+    backdrop-filter: blur(10px);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.logo {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--light-text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--accent-color);
+    transition: var(--transition);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.nav-cta {
+    background: var(--primary-color);
+    padding: 0.7rem 1.5rem;
+    border-radius: 30px;
+    transition: var(--transition);
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.nav-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+    background: #45a049;
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 2rem;
+    background: url('/api/placeholder/1920/1080') center/cover;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+}
+
+.hero-tagline {
+    font-size: 1.8rem;
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+h1 {
+    font-size: 4.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--light-text);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.highlight {
+    color: var(--primary-color);
+    position: relative;
+    display: inline-block;
+}
+
+.hero p {
+    font-size: 1.3rem;
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Jackpot Counter */
+.jackpot-container {
+    margin: 3rem 0;
+    background: rgba(255,255,255,0.1);
+    padding: 1.5rem;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+}
+
+.jackpot-label {
+    font-size: 1.4rem;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+}
+
+#jackpot-counter {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-shadow: 0 0 20px rgba(76, 175, 80, 0.7);
+}
+
+/* CTA Buttons */
+.cta-container {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: bold;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.cta-button.primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.cta-button.secondary {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+}
+
+.cta-button.primary:hover {
+    background: #45a049;
+}
+
+.cta-button.secondary:hover {
+    background: #1c87e0;
+}
+
+/* Floating Elements */
+.floating-elements {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.floating-card {
+    position: absolute;
+    font-size: 6rem;
+    opacity: 0.15;
+    animation: float 8s infinite;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+}
+
+.card-1 { top: 20%; left: 10%; animation-delay: 0s; color: #ff6b6b;}
+.card-2 { top: 40%; right: 10%; animation-delay: 2s; color: #4ecdc4;}
+.card-3 { bottom: 30%; left: 15%; animation-delay: 4s; color: #ff6b6b;}
+.card-4 { bottom: 20%; right: 15%; animation-delay: 6s; color: #4ecdc4;}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-30px) rotate(5deg); }
+}
+
+/* Features Section */
+.features {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+}
+
+.feature {
+    text-align: center;
+    flex: 1;
+    min-width: 250px;
+    margin: 1.5rem;
+    padding: 2.5rem;
+    background: rgba(255,255,255,0.05);
+    border-radius: 15px;
+    transition: var(--transition);
+    backdrop-filter: blur(5px);
+}
+
+.feature:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.feature i {
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+}
+
+.feature h2 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+.feature p {
+    color: rgba(255,255,255,0.8);
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(to top, #000000, #1a1a1a);
+    color: var(--light-text);
+    padding: 5rem 2rem 3rem;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-section {
+    margin-bottom: 2.5rem;
+    min-width: 250px;
+}
+
+.footer-section h3 {
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 2px;
+    background-color: var(--accent-color);
+}
+
+.footer-section a {
+    display: block;
+    color: var(--light-text);
+    text-decoration: none;
+    margin-bottom: 0.8rem;
+    transition: var(--transition);
+}
+
+.footer-section a:hover {
+    color: var(--accent-color);
+    transform: translateX(5px);
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.6);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 3.5rem;
+    }
+    
+    .hero-tagline {
+        font-size: 1.5rem;
+    }
+    
+    .cta-container {
+        flex-direction: column;
+    }
+    
+    .feature {
+        min-width: 100%;
+    }
+}
+
+/* Enhanced Background */
+body {
+    background: 
+        linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(33, 150, 243, 0.1) 100%),
+        radial-gradient(circle at top left, rgba(255, 193, 7, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at bottom right, rgba(233, 30, 99, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, var(--dark-bg), #2d2d2d);
+    background-attachment: fixed;
+}
+
+/* Glowing Orbs */
+.glowing-orbs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+}
+
+.orb-1 {
+    top: -100px;
+    left: -100px;
+    width: 300px;
+    height: 300px;
+    background-color: rgba(76, 175, 80, 0.3);
+    animation: float-1 15s infinite alternate;
+}
+
+.orb-2 {
+    bottom: -150px;
+    right: -150px;
+    width: 500px;
+    height: 500px;
+    background-color: rgba(33, 150, 243, 0.3);
+    animation: float-2 20s infinite alternate;
+}
+
+@keyframes float-1 {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+}
+
+@keyframes float-2 {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-70px, -70px); }
+}
+
+/* Enhanced Card Styles */
+.feature {
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes rotate {
+    100% { transform: rotate(360deg); }
+}
+
+/* Animated Border for CTA Buttons */
+.cta-button {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: translateX(-100%);
+    animation: shimmer 3s infinite;
+    z-index: -1;
+}
+
+@keyframes shimmer {
+    100% { transform: translateX(100%); }
+}
+
+/* Particle Effect */
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+}
+
+/* Add more particle styles in your JavaScript */
+
+/* Enhanced Jackpot Counter */
+#jackpot-counter {
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: pulse 5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Hover Effect for Navigation Links */
+.nav-links a:not(.nav-cta) {
+    position: relative;
+}
+
+.nav-links a:not(.nav-cta)::before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--accent-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.nav-links a:not(.nav-cta):hover::before {
+    transform: scaleX(1);
+}
