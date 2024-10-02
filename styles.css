@@ -43,7 +43,7 @@ header {
 
 nav {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start; /* Aligns items to the start (left) */
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
@@ -57,8 +57,10 @@ nav {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    /* Remove the margin-left: auto; */
+    text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+    margin-right: auto; /* Ensures logo is aligned left */
 }
+
 
 .nav-links {
     display: flex;
