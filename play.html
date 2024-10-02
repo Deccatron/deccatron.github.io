@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;500;700&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: #0a0a0a;
+        color: #ffffff;
+        overflow-x: hidden;
+    }
+
+    /* Games Section Styles */
+    .games-section {
+        min-height: 100vh;
+        padding: 4rem 2rem;
+        position: relative;
+        overflow: hidden;
+        background: 
+            linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, rgba(33, 150, 243, 0.05) 100%),
+            #0a0a0a;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .games-section h2 {
+        text-align: center;
+        font-size: 4.5rem;
+        font-family: 'Orbitron', sans-serif;
+        margin-bottom: 3rem;
+        position: relative;
+        z-index: 2;
+        background: linear-gradient(90deg, #4CAF50, #8BC34A, #388E3C);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+        letter-spacing: 2px;
+        position: relative;
+        display: inline-block;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: pulseTextShadow 2s infinite;
+    }
+
+    @keyframes pulseTextShadow {
+        0%, 100% {
+            text-shadow: 0 0 15px rgba(76, 175, 80, 0.5), 0 0 30px rgba(56, 142, 60, 0.7);
+        }
+        50% {
+            text-shadow: 0 0 20px rgba(76, 175, 80, 0.7), 0 0 40px rgba(56, 142, 60, 1);
+        }
+    }
+
+    .game-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2.5rem;
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+    }
+
+    .game-card {
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 20px;
+        padding: 2.5rem;
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+    }
+
+    .game-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 50% 0%, rgba(76, 175, 80, 0.1), transparent 70%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .game-card:hover::before {
+        opacity: 1;
+    }
+
+    .game-card:hover {
+        transform: translateY(-15px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+                    0 0 30px rgba(76, 175, 80, 0.2);
+    }
+
+    .game-icon {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        transition: all 0.4s ease;
+        position: relative;
+    }
+
+    .game-icon i {
+        background: linear-gradient(135deg, #FFC107, #4CAF50);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.3));
+    }
+
+    .game-card:hover .game-icon {
+        transform: scale(1.1) rotate(5deg);
+        filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.5));
+    }
+
+    .game-card h3 {
+        font-size: 2rem;
+        font-family: 'Orbitron', sans-serif;
+        color: #ffffff;
+        margin-bottom: 1rem;
+        letter-spacing: 1px;
+    }
+
+    .game-card p {
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        flex-grow: 1;
+    }
+
+    .play-button {
+        display: inline-block;
+        padding: 1rem 2.5rem;
+        background: linear-gradient(90deg, #4CAF50, #45a049);
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-family: 'Orbitron', sans-serif;
+        cursor: pointer;
+    }
+
+    .play-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .play-button:hover::before {
+        left: 100%;
+    }
+
+    .play-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+    }
+
+    .play-button:active {
+        background: linear-gradient(90deg, #45a049, #4CAF50);
+        box-shadow: none;
+    }
+
+    /* Cool Background Elements */
+    .background-elements {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .floating-shape {
+        position: absolute;
+        opacity: 0.1;
+        filter: blur(3px);
+        animation: float 15s infinite alternate;
+    }
+
+    .crypto-symbol {
+        font-size: 2rem;
+        color: #FFC107;
+        position: absolute;
+        opacity: 0.15;
+        animation: floatShade 20s infinite alternate;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(5deg); }
+    }
+
+    @keyframes floatShade {
+        0%, 100% { transform: translateY(0px) rotate(-10deg); opacity: 0.1;}
+        50% { transform: translateY(-10px) rotate(10deg); opacity: 0.15; }
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); opacity: 0.1; }
+        50% { transform: scale(1.1); opacity: 0.15; }
+    }
+
+    /* Particle Animation on Hover */
+    .particle-effect {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        background: rgba(255, 255, 255, 0.15);
+        animation: particle-move 1s ease-out forwards;
+    }
+
+    @keyframes particle-move {
+        to {
+            transform: translateX(200px) scale(0);
+            opacity: 0;
+        }
+    }
+
+    /* Grid Lines */
+    .grid-lines {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+        z-index: 1;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .games-section h2 {
+            font-size: 3rem;
+        }
+        
+        .game-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .game-card {
+            padding: 2rem;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="grid-lines"></div>
+
+<section class="games-section">
+    <h2 data-text="POPULAR GAMES">POPULAR GAMES</h2>
+    <div class="game-grid">
+        <div class="game-card">
+            <div class="game-icon"><i class="fas fa-coins"></i></div>
+            <h3>Coin Flip Pro</h3>
+            <p>Enter the arena of chance where fortunes are made. Double your crypto with each successful prediction!</p>
+            <a href="#" class="play-button ripple">Play Now</a>
+        </div>
+        <div class="game-card">
+            <div class="game-icon"><i class="fas fa-briefcase"></i></div>
+            <h3>Case Royale</h3>
+            <p>Unleash the thrill of epic case battles. Challenge rivals and claim victory doubling your crypto!</p>
+            <a href="#" class="play-button ripple">Battle Now</a>
+        </div>
+        <div class="game-card">
+            <div class="game-icon"><i class="fas fa-dice"></i></div>
+            <h3>Quantum Dice</h3>
+            <p>Where probability meets destiny. Roll the quantum dice and let fortune favor the bold!</p>
+            <a href="#" class="play-button ripple">Roll Dice</a>
+        </div>
+        <div class="game-card">
+            <div class="game-icon"><i class="fas fa-chart-line"></i></div>
+            <h3>Crypto Crash</h3>
+            <p>Ride the wave of multipliers in this high-stakes thrill ride. How long can you hold before the crash?</p>
+            <a href="#" class="play-button ripple">Start Game</a>
+        </div>
+    </div>
+</section>
+
+<div class="background-elements" id="backgroundElements"></div>
+
+<script>
+// Create floating background elements
+function createBackgroundElements() {
+    const container = document.getElementById('backgroundElements');
+    const elements = 20;
+
+    for (let i = 0; i < elements; i++) {
+        // Create crypto symbols
+        const symbol = document.createElement('div');
+        symbol.className = 'crypto-symbol';
+        symbol.innerHTML = ['₿', 'Ξ', '◈', '★'][Math.floor(Math.random() * 4)];
+        symbol.style.left = `${Math.random() * 100}%`;
+        symbol.style.top = `${Math.random() * 100}%`;
+        container.appendChild(symbol);
+
+        // Create geometric shapes
+        const shape = document.createElement('div');
+        shape.className = 'floating-shape';
+        shape.style.left = `${Math.random() * 100}%`;
+        shape.style.top = `${Math.random() * 100}%`;
+        shape.style.width = `${20 + Math.random() * 30}px`;
+        shape.style.height = shape.style.width;
+        shape.style.backgroundColor = ['#4CAF50', '#FFC107', '#2196F3'][Math.floor(Math.random() * 3)];
+        shape.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        container.appendChild(shape);
+    }
+
+    floatingParticles();
+}
+
+// Particles effect on button click
+document.querySelectorAll('.ripple').forEach(button => {
+    button.addEventListener('click', e => {
+        let x = e.clientX - e.target.offsetLeft;
+        let y = e.clientY - e.target.offsetTop;
+        let particleElement = document.createElement('div');
+        particleElement.className = 'particle-effect';
+        particleElement.style.left = `${x}px`;
+        particleElement.style.top = `${y}px`;
+        e.target.appendChild(particleElement);
+
+        setTimeout(() => particleElement.remove(), 1000);
+    });
+});
+
+// Floating star-like particles function
+function floatingParticles() {
+    for (let i = 0; i < 100; i++) {
+        const star = document.createElement('i');
+        star.classList.add('floating-shape');
+        star.style.width = '2px';
+        star.style.height = '2px';
+        star.style.position = 'absolute';
+        star.style.left = `${Math.random() * window.innerWidth}px`;
+        star.style.top = `${Math.random() * window.innerHeight}px`;
+        star.style.background = 'rgba(255, 255, 255, 0.3)';
+        star.style.animation = `pulse ${3 + Math.random() * 5}s infinite`;
+        document.body.appendChild(star);
+    }
+}
+
+// Initialize background elements
+createBackgroundElements();
+</script>
+
+</body>
+</html>
