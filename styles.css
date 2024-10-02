@@ -56,7 +56,7 @@ nav {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+    /* Remove the margin-left: auto; */
 }
 
 .nav-links {
