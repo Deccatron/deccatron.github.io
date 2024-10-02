@@ -60,7 +60,7 @@ nav {
 .nav-links {
     display: flex;
     gap: 2rem;
-    align-items: center;
+    align-items: right;
 }
 
 .nav-links a {
