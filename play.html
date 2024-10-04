@@ -18,7 +18,6 @@
         overflow-x: hidden;
     }
 
-    /* Games Section Styles */
     .games-section {
         min-height: 100vh;
         padding: 4rem 2rem;
@@ -38,13 +37,11 @@
         font-family: 'Orbitron', sans-serif;
         margin-bottom: 3rem;
         position: relative;
-        z-index: 2;
         background: linear-gradient(90deg, #4CAF50, #8BC34A, #388E3C);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         text-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
         letter-spacing: 2px;
-        position: relative;
         display: inline-block;
         left: 50%;
         transform: translateX(-50%);
@@ -66,8 +63,6 @@
         gap: 2.5rem;
         max-width: 1400px;
         margin: 0 auto;
-        position: relative;
-        z-index: 2;
     }
 
     .game-card {
@@ -76,7 +71,6 @@
         padding: 2.5rem;
         text-align: center;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        position: relative;
         overflow: hidden;
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -85,22 +79,6 @@
         flex-direction: column;
         justify-content: space-between;
         height: 100%;
-    }
-
-    .game-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(circle at 50% 0%, rgba(76, 175, 80, 0.1), transparent 70%);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .game-card:hover::before {
-        opacity: 1;
     }
 
     .game-card:hover {
@@ -113,7 +91,6 @@
         font-size: 4rem;
         margin-bottom: 1.5rem;
         transition: all 0.4s ease;
-        position: relative;
     }
 
     .game-icon i {
@@ -186,7 +163,6 @@
         box-shadow: none;
     }
 
-    /* Cool Background Elements */
     .background-elements {
         position: fixed;
         top: 0;
@@ -223,27 +199,6 @@
         50% { transform: translateY(-10px) rotate(10deg); opacity: 0.15; }
     }
 
-    @keyframes pulse {
-        0%, 100% { transform: scale(1); opacity: 0.1; }
-        50% { transform: scale(1.1); opacity: 0.15; }
-    }
-
-    /* Particle Animation on Hover */
-    .particle-effect {
-        position: absolute;
-        border-radius: 50%;
-        pointer-events: none;
-        background: rgba(255, 255, 255, 0.15);
-        animation: particle-move 1s ease-out forwards;
-    }
-
-    @keyframes particle-move {
-        to {
-            transform: translateX(200px) scale(0);
-            opacity: 0;
-        }
-    }
-
     /* Grid Lines */
     .grid-lines {
         position: fixed;
@@ -258,7 +213,6 @@
         z-index: 1;
     }
 
-    /* Responsive Design */
     @media (max-width: 768px) {
         .games-section h2 {
             font-size: 3rem;
@@ -314,7 +268,7 @@
 // Create floating background elements
 function createBackgroundElements() {
     const container = document.getElementById('backgroundElements');
-    const elements = 20;
+    const elements = 10; // Reduced number of elements
 
     for (let i = 0; i < elements; i++) {
         // Create crypto symbols
@@ -330,7 +284,7 @@ function createBackgroundElements() {
         shape.className = 'floating-shape';
         shape.style.left = `${Math.random() * 100}%`;
         shape.style.top = `${Math.random() * 100}%`;
-        shape.style.width = `${20 + Math.random() * 30}px`;
+        shape.style.width = `${20 + Math.random() * 20}px`; // Reduced size
         shape.style.height = shape.style.width;
         shape.style.backgroundColor = ['#4CAF50', '#FFC107', '#2196F3'][Math.floor(Math.random() * 3)];
         shape.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
@@ -338,6 +292,22 @@ function createBackgroundElements() {
     }
 
     floatingParticles();
+}
+
+// Simplified float function
+function floatingParticles() {
+    for (let i = 0; i < 20; i++) { // Reduced number of particles
+        const star = document.createElement('i');
+        star.classList.add('floating-shape');
+        star.style.width = '2px';
+        star.style.height = '2px';
+        star.style.position = 'absolute';
+        star.style.left = `${Math.random() * window.innerWidth}px`;
+        star.style.top = `${Math.random() * window.innerHeight}px`;
+        star.style.background = 'rgba(255, 255, 255, 0.3)';
+        star.style.animation = `pulse ${5 + Math.random() * 5}s infinite`; // Slower animation
+        document.body.appendChild(star);
+    }
 }
 
 // Particles effect on button click
@@ -354,22 +324,6 @@ document.querySelectorAll('.ripple').forEach(button => {
         setTimeout(() => particleElement.remove(), 1000);
     });
 });
-
-// Floating star-like particles function
-function floatingParticles() {
-    for (let i = 0; i < 100; i++) {
-        const star = document.createElement('i');
-        star.classList.add('floating-shape');
-        star.style.width = '2px';
-        star.style.height = '2px';
-        star.style.position = 'absolute';
-        star.style.left = `${Math.random() * window.innerWidth}px`;
-        star.style.top = `${Math.random() * window.innerHeight}px`;
-        star.style.background = 'rgba(255, 255, 255, 0.3)';
-        star.style.animation = `pulse ${3 + Math.random() * 5}s infinite`;
-        document.body.appendChild(star);
-    }
-}
 
 // Initialize background elements
 createBackgroundElements();
