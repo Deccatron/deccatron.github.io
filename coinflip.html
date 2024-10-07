@@ -28,8 +28,8 @@
     align-items: flex-start;
     margin: 0;
     padding: 20px;
-    gap: 20px;
     color: var(--text-primary);
+    overflow-x: hidden; /* Prevents horizontal scroll */
   }
 
   .container {
@@ -37,6 +37,7 @@
     flex-direction: column;
     gap: 20px;
     flex: 1;
+    min-width: 300px;
   }
 
   .game-container, .game-list-container, .auto-bet-container, .right-side-container {
@@ -50,14 +51,14 @@
 
   .game-container, .game-list-container, .auto-bet-container {
     max-width: 400px;
-    flex: 1;
+    width: 100%; /* Fill available space */
   }
 
-.right-side-container {
-  width: 3250px;
-  min-height: 1457px; /* Set the minimum height */
-  align-self: flex-start; /* Ensure it only takes up necessary vertical space */
-}
+  .right-side-container {
+    min-width: 200px; /* A more practical width for UI/UX purposes */
+    flex: 1; /* Allow to grow and fill available space */
+    height: 100%; /* Match height of other containers */
+  }
 
   .section {
     margin-bottom: 28px;
@@ -258,17 +259,6 @@
     gap: 16px;
     margin-top: 24px;
   }
-  
-.auto-bet-container {
-  background: var(--card-bg);
-  border-radius: 24px;
-  padding: 32px;
-  box-shadow: var(--card-shadow);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  max-width: 400px;
-  height: 300px; /* Fix the height to prevent stretching */
-}
 
   .button-group .control-btn {
     flex: 1;
@@ -296,6 +286,26 @@
   .game-list::-webkit-scrollbar-thumb {
     background: var(--primary-color);
     border-radius: 4px;
+  }
+
+  /* Responsive adjustments */
+  @media screen and (max-width: 768px) {
+    body {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .right-side-container {
+      width: 100%;
+      min-width: 280px;
+      height: auto; /* Allow to adjust height automatically */
+    }
   }
 </style>
 </head>
