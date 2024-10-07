@@ -24,25 +24,40 @@
     background: var(--bg-gradient);
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: flex-start;
-    justify-content: flex-start;
     margin: 0;
     padding: 20px;
+    gap: 20px;
     color: var(--text-primary);
   }
 
-  .game-container, .game-list-container {
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+  }
+
+  .game-container, .game-list-container, .auto-bet-container, .right-side-container {
     background: var(--card-bg);
     border-radius: 24px;
     padding: 32px;
-    width: 100%;
-    max-width: 400px;
     box-shadow: var(--card-shadow);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    margin: 20px 0; /* Add vertical margin */
   }
+
+  .game-container, .game-list-container, .auto-bet-container {
+    max-width: 400px;
+    flex: 1;
+  }
+
+.right-side-container {
+  width: 3250px;
+  min-height: 1457px; /* Set the minimum height */
+  align-self: flex-start; /* Ensure it only takes up necessary vertical space */
+}
 
   .section {
     margin-bottom: 28px;
@@ -82,12 +97,12 @@
     outline: none;
   }
 
-  .bet-controls {
+  .bet-controls, .auto-bet-controls {
     display: flex;
     gap: 8px;
   }
 
-  .control-btn {
+  .control-btn, .auto-bet-btn {
     background: rgba(255, 255, 255, 0.1);
     border: none;
     color: var(--text-secondary);
@@ -98,7 +113,7 @@
     transition: var(--hover-transition);
   }
 
-  .control-btn:hover {
+  .control-btn:hover, .auto-bet-btn:hover {
     background: rgba(255, 255, 255, 0.2);
     color: var(--text-primary);
     transform: translateY(-2px);
@@ -243,6 +258,17 @@
     gap: 16px;
     margin-top: 24px;
   }
+  
+.auto-bet-container {
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 400px;
+  height: 300px; /* Fix the height to prevent stretching */
+}
 
   .button-group .control-btn {
     flex: 1;
@@ -271,81 +297,100 @@
     background: var(--primary-color);
     border-radius: 4px;
   }
-  
-  @media (max-width: 768px) {
-    body {
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    .game-container, .game-list-container {
-      max-width: none;
-      margin-left: 0;
-      margin-right: 0;
-    }
-  }
 </style>
 </head>
 <body>
-  <div class="game-container">
-    <div class="section">
-      <div class="section-title">Bet Amount</div>
-      <div class="bet-input">
-        <input type="text" class="bet-amount" value="10">
-        <div class="bet-controls">
-          <button class="control-btn">½</button>
-          <button class="control-btn">2×</button>
-          <button class="control-btn">Max</button>
+  <div class="container">
+    <div class="game-container">
+      <div class="section">
+        <div class="section-title">Bet Amount</div>
+        <div class="bet-input">
+          <input type="text" class="bet-amount" value="10">
+          <div class="bet-controls">
+            <button class="control-btn">½</button>
+            <button class="control-btn">2×</button>
+            <button class="control-btn">Max</button>
+          </div>
         </div>
       </div>
+
+      <div class="section">
+        <div class="section-title">Select Color</div>
+        <div class="color-options">
+          <label class="color-option red">
+            <input type="radio" name="color" checked>
+            <div class="color-indicator"></div>
+          </label>
+          <label class="color-option blue">
+            <input type="radio" name="color">
+            <div class="color-indicator"></div>
+          </label>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Number of Games</div>
+        <div class="cups-options">
+          <button class="cup-btn active">1</button>
+          <button class="cup-btn">2</button>
+          <button class="cup-btn">3</button>
+        </div>
+      </div>
+
+      <button class="start-btn">Start New Game</button>
     </div>
 
-    <div class="section">
-      <div class="section-title">Select Color</div>
-      <div class="color-options">
-        <label class="color-option red">
-          <input type="radio" name="color" checked>
-          <div class="color-indicator"></div>
-        </label>
-        <label class="color-option blue">
-          <input type="radio" name="color">
-          <div class="color-indicator"></div>
-        </label>
+    <div class="game-list-container">
+      <div class="section">
+        <div class="section-title">Join Existing Game</div>
+        <input type="text" class="input-game-code" placeholder="Enter game code">
+      </div>
+
+      <div class="section">
+        <div class="section-title">Available Games</div>
+        <div class="game-list">
+          <div class="game-item">Game #A7X9B2 - 2 Players</div>
+          <div class="game-item">Game #C5D3E8 - 1 Player</div>
+          <div class="game-item">Game #F2G6H1 - 3 Players</div>
+          <div class="game-item">Game #J4K8L5 - 2 Players</div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button class="control-btn">Join Game</button>
+        <button class="control-btn">Create Game</button>
       </div>
     </div>
 
-    <div class="section">
-      <div class="section-title">Number of Games</div>
-      <div class="cups-options">
-        <button class="cup-btn active">1</button>
-        <button class="cup-btn">2</button>
-        <button class="cup-btn">3</button>
+    <div class="auto-bet-container">
+      <div class="section">
+        <div class="section-title">Auto Bet Settings</div>
+        <div class="bet-input">
+          <input type="text" class="bet-amount" placeholder="Bet Amount">
+          <div class="auto-bet-controls">
+            <button class="auto-bet-btn">½</button>
+            <button class="auto-bet-btn">2×</button>
+            <button class="auto-bet-btn">Max</button>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <button class="start-btn">Start New Game</button>
+      <div class="section">
+        <div class="section-title">Stop Conditions</div>
+        <div class="bet-input">
+          <input type="text" class="bet-amount" placeholder="Stop Loss">
+        </div>
+        <div class="bet-input" style="margin-top: 8px;">
+          <input type="text" class="bet-amount" placeholder="Stop Profit">
+        </div>
+      </div>
+
+      <button class="start-btn">Start Auto Bet</button>
+    </div>
   </div>
 
-  <div class="game-list-container">
-    <div class="section">
-      <div class="section-title">Join Existing Game</div>
-      <input type="text" class="input-game-code" placeholder="Enter game code">
-    </div>
-
-    <div class="section">
-      <div class="section-title">Available Games</div>
-      <div class="game-list">
-        <div class="game-item">Game #A7X9B2 - 2 Players</div>
-        <div class="game-item">Game #C5D3E8 - 1 Player</div>
-        <div class="game-item">Game #F2G6H1 - 3 Players</div>
-        <div class="game-item">Game #J4K8L5 - 2 Players</div>
-      </div>
-    </div>
-
-    <div class="button-group">
-      <button class="control-btn">Join Game</button>
-      <button class="control-btn">Create Game</button>
-    </div>
+  <div class="right-side-container">
+    <!-- This container is empty for now but will hold additional content or UI elements in the future -->
   </div>
 </body>
 </html>
