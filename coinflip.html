@@ -1,19 +1,22 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
   :root {
-    --bg-gradient: linear-gradient(145deg, #1a1f35 0%, #131726 100%);
-    --card-bg: linear-gradient(145deg, #24294b 0%, #1e2340 100%);
-    --primary-color: #4f46e5;
-    --primary-gradient: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
-    --text-primary: #ffffff;
-    --text-secondary: #9ca3af;
-    --red-gradient: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
-    --blue-gradient: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+    --bg-gradient: linear-gradient(145deg, #0f172a 0%, #1e1b4b 100%);
+    --card-bg: linear-gradient(145deg, #1e293b 0%, #1e1b4b 100%);
+    --primary-color: #6366f1;
+    --primary-gradient: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --red-gradient: linear-gradient(90deg, #ef4444 0%, #b91c1c 100%);
+    --blue-gradient: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 100%);
+    --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    --hover-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   body {
@@ -21,19 +24,24 @@
     background: var(--bg-gradient);
     min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
     margin: 0;
     padding: 20px;
+    color: var(--text-primary);
   }
 
-  .game-container {
+  .game-container, .game-list-container {
     background: var(--card-bg);
     border-radius: 24px;
     padding: 32px;
     width: 100%;
-    max-width: 420px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    max-width: 400px;
+    box-shadow: var(--card-shadow);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 20px 0; /* Add vertical margin */
   }
 
   .section {
@@ -46,7 +54,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
   }
 
   .bet-input {
@@ -56,6 +64,11 @@
     align-items: center;
     padding: 8px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: var(--hover-transition);
+  }
+
+  .bet-input:focus-within {
+    border-color: var(--primary-color);
   }
 
   .bet-amount {
@@ -78,16 +91,17 @@
     background: rgba(255, 255, 255, 0.1);
     border: none;
     color: var(--text-secondary);
-    padding: 8px 12px;
+    padding: 10px 14px;
     border-radius: 12px;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: var(--hover-transition);
   }
 
   .control-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.2);
     color: var(--text-primary);
+    transform: translateY(-2px);
   }
 
   .color-options {
@@ -97,15 +111,17 @@
 
   .color-option {
     flex: 1;
-    height: 56px;
+    height: 64px;
     border-radius: 16px;
     cursor: pointer;
     position: relative;
-    transition: transform 0.2s;
+    transition: var(--hover-transition);
+    overflow: hidden;
   }
 
   .color-option:hover {
     transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   }
 
   .color-option.red {
@@ -148,7 +164,12 @@
     font-size: 18px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: var(--hover-transition);
+  }
+
+  .cup-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
   }
 
   .cup-btn.active {
@@ -166,11 +187,68 @@
     font-size: 18px;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: var(--hover-transition);
+    background-size: 200% 200%;
+    animation: gradient 5s ease infinite;
   }
 
   .start-btn:hover {
     transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+  }
+
+  .input-game-code {
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--text-primary);
+    width: calc(100% - 32px); /* Adjust width to account for padding */
+    margin-bottom: 16px;
+    outline: none;
+    font-size: 16px;
+    text-align: center;
+    transition: var(--hover-transition);
+  }
+
+  .input-game-code:focus {
+    border-color: var(--primary-color);
+  }
+
+  .game-list {
+    max-height: 300px;
+    overflow-y: auto;
+    border-radius: 16px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 8px;
+  }
+
+  .game-item {
+    padding: 16px;
+    border-radius: 12px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--hover-transition);
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .game-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(4px);
+  }
+
+  .button-group {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .button-group .control-btn {
+    flex: 1;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 600;
   }
 
   @keyframes gradient {
@@ -179,9 +257,32 @@
     100% { background-position: 0% 50%; }
   }
 
-  .start-btn {
-    background-size: 200% 200%;
-    animation: gradient 5s ease infinite;
+  /* Custom scrollbar */
+  .game-list::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .game-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+  }
+
+  .game-list::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+  }
+  
+  @media (max-width: 768px) {
+    body {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .game-container, .game-list-container {
+      max-width: none;
+      margin-left: 0;
+      margin-right: 0;
+    }
   }
 </style>
 </head>
@@ -192,15 +293,15 @@
       <div class="bet-input">
         <input type="text" class="bet-amount" value="10">
         <div class="bet-controls">
-          <button class="control-btn">1/2</button>
-          <button class="control-btn">2x</button>
+          <button class="control-btn">½</button>
+          <button class="control-btn">2×</button>
           <button class="control-btn">Max</button>
         </div>
       </div>
     </div>
 
     <div class="section">
-      <div class="section-title">Bet Color</div>
+      <div class="section-title">Select Color</div>
       <div class="color-options">
         <label class="color-option red">
           <input type="radio" name="color" checked>
@@ -214,15 +315,37 @@
     </div>
 
     <div class="section">
-      <div class="section-title">Number of Cups</div>
+      <div class="section-title">Number of Games</div>
       <div class="cups-options">
-        <button class="cup-btn active">2</button>
+        <button class="cup-btn active">1</button>
+        <button class="cup-btn">2</button>
         <button class="cup-btn">3</button>
-        <button class="cup-btn">4</button>
       </div>
     </div>
 
     <button class="start-btn">Start New Game</button>
+  </div>
+
+  <div class="game-list-container">
+    <div class="section">
+      <div class="section-title">Join Existing Game</div>
+      <input type="text" class="input-game-code" placeholder="Enter game code">
+    </div>
+
+    <div class="section">
+      <div class="section-title">Available Games</div>
+      <div class="game-list">
+        <div class="game-item">Game #A7X9B2 - 2 Players</div>
+        <div class="game-item">Game #C5D3E8 - 1 Player</div>
+        <div class="game-item">Game #F2G6H1 - 3 Players</div>
+        <div class="game-item">Game #J4K8L5 - 2 Players</div>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button class="control-btn">Join Game</button>
+      <button class="control-btn">Create Game</button>
+    </div>
   </div>
 </body>
 </html>
