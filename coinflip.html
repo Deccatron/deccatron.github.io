@@ -59,7 +59,6 @@
             100% { opacity: 1; }
         }
 
-        /* Planets Section */
         .planet {
             position: fixed;
             border-radius: 50%;
@@ -215,6 +214,10 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
+        #join-game.hidden {
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
@@ -237,13 +240,13 @@
         <div class="card">
             <h2 class="section-title">Place Your Bet</h2>
             <div class="input-group">
-                <input type="number" placeholder="Bet Amount" min="1">
+                <input id="bet-amount" type="number" placeholder="Bet Amount" min="1">
             </div>
             <div class="color-options">
-                <div class="color-option red" title="Red"></div>
-                <div class="color-option blue" title="Blue"></div>
+                <div class="color-option red" data-color="Red" title="Red"></div>
+                <div class="color-option blue" data-color="Blue" title="Blue"></div>
             </div>
-            <button class="btn">Launch Bet</button>
+            <button id="launch-bet" class="btn">Launch Bet</button>
         </div>
 
         <div class="card">
@@ -251,12 +254,10 @@
             <div class="input-group">
                 <input type="text" placeholder="Enter Game Code">
             </div>
-            <div class="game-list">
-                <div class="game-item">Nebula #A7X9B2 - 2 Players</div>
-                <div class="game-item">Supernova #C5D3E8 - 1 Player</div>
-                <div class="game-item">Quasar #F2G6H1 - 3 Players</div>
+            <div id="game-list" class="game-list">
+                <!-- Active games will be appended here dynamically -->
             </div>
-            <button class="btn">Join Game</button>
+            <button id="join-game" class="btn hidden">Join Game</button>
         </div>
 
         <div class="card">
@@ -271,7 +272,85 @@
         </div>
     </div>
 
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
     <script>
+        const socket = io('http://localhost:4000'); // Point this to your server address
+
+        let selectedColor = '';
+        let activeGame = null;
+        let myName = `User-${Math.random().toString(36).substring(7)}`; // Simulate unique user, use an actual unique identifier when deploying
+
+        socket.on('currentGames', function (games) {
+            games.forEach(addGameToList);
+        });
+
+        socket.on('newGame', function (game) {
+            addGameToList(game);
+        });
+
+        socket.on('gameJoined', function (gameCode) {
+            const gameElements = document.querySelectorAll('.game-item');
+            gameElements.forEach((gameElement) => {
+                if (gameElement.dataset.gameCode === gameCode) {
+                    gameElement.remove();
+                }
+            });
+        });
+
+        socket.on('error', function (message) {
+            alert(message);
+        });
+
+        function addGameToList(game) {
+            const newGame = document.createElement('div');
+            newGame.classList.add('game-item');
+            newGame.textContent = `Bet: ${game.amount} - Color: ${game.color} by ${game.creatorName}`;
+            newGame.dataset.gameCode = game.code;
+
+            newGame.addEventListener('click', function () {
+                activeGame = game;
+                document.getElementById('join-game').classList.remove('hidden');
+            });
+
+            document.getElementById('game-list').appendChild(newGame);
+        }
+
+        // Color selection
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', function () {
+                document.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedColor = this.getAttribute('data-color');
+            });
+        });
+
+        // Launch Bet
+        document.getElementById('launch-bet').addEventListener('click', function () {
+            const betAmount = document.getElementById('bet-amount').value;
+
+            if (betAmount && selectedColor) {
+                const newGame = {
+                    amount: betAmount,
+                    color: selectedColor,
+                    creatorName: myName,
+                    creatorId: myName, // Replace this with the user's unique ID
+                    code: Math.random().toString(36).substring(2, 7) // Unique game code
+                };
+
+                socket.emit('createGame', newGame);
+            } else {
+                alert('Please select both bet amount and color.');
+            }
+        });
+
+        // Join Game
+        document.getElementById('join-game').addEventListener('click', function () {
+            if (activeGame) {
+                socket.emit('joinGame', activeGame.code);
+                window.location.href = 'c_in_play.html'; // Redirect to the game playing page
+            }
+        });
+
         function createStars() {
             const starsContainer = document.getElementById('stars');
             for (let i = 0; i < 100; i++) {
