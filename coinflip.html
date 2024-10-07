@@ -1,1 +1,228 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --bg-gradient: linear-gradient(145deg, #1a1f35 0%, #131726 100%);
+    --card-bg: linear-gradient(145deg, #24294b 0%, #1e2340 100%);
+    --primary-color: #4f46e5;
+    --primary-gradient: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
+    --text-primary: #ffffff;
+    --text-secondary: #9ca3af;
+    --red-gradient: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+    --blue-gradient: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-gradient);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 20px;
+  }
+
+  .game-container {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 32px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  .section {
+    margin-bottom: 28px;
+  }
+
+  .section-title {
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+
+  .bet-input {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .bet-amount {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 600;
+    padding: 12px;
+    width: 100%;
+    outline: none;
+  }
+
+  .bet-controls {
+    display: flex;
+    gap: 8px;
+  }
+
+  .control-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--text-secondary);
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .control-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--text-primary);
+  }
+
+  .color-options {
+    display: flex;
+    gap: 16px;
+  }
+
+  .color-option {
+    flex: 1;
+    height: 56px;
+    border-radius: 16px;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s;
+  }
+
+  .color-option:hover {
+    transform: translateY(-2px);
+  }
+
+  .color-option.red {
+    background: var(--red-gradient);
+  }
+
+  .color-option.blue {
+    background: var(--blue-gradient);
+  }
+
+  .color-option input {
+    display: none;
+  }
+
+  .color-option input:checked + .color-indicator {
+    opacity: 1;
+  }
+
+  .color-indicator {
+    position: absolute;
+    inset: -3px;
+    border: 2px solid white;
+    border-radius: 18px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .cups-options {
+    display: flex;
+    gap: 12px;
+  }
+
+  .cup-btn {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--text-secondary);
+    padding: 16px;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .cup-btn.active {
+    background: var(--primary-gradient);
+    color: var(--text-primary);
+  }
+
+  .start-btn {
+    background: var(--primary-gradient);
+    border: none;
+    color: var(--text-primary);
+    width: 100%;
+    padding: 18px;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .start-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .start-btn {
+    background-size: 200% 200%;
+    animation: gradient 5s ease infinite;
+  }
+</style>
+</head>
+<body>
+  <div class="game-container">
+    <div class="section">
+      <div class="section-title">Bet Amount</div>
+      <div class="bet-input">
+        <input type="text" class="bet-amount" value="10">
+        <div class="bet-controls">
+          <button class="control-btn">1/2</button>
+          <button class="control-btn">2x</button>
+          <button class="control-btn">Max</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Bet Color</div>
+      <div class="color-options">
+        <label class="color-option red">
+          <input type="radio" name="color" checked>
+          <div class="color-indicator"></div>
+        </label>
+        <label class="color-option blue">
+          <input type="radio" name="color">
+          <div class="color-indicator"></div>
+        </label>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Number of Cups</div>
+      <div class="cups-options">
+        <button class="cup-btn active">2</button>
+        <button class="cup-btn">3</button>
+        <button class="cup-btn">4</button>
+      </div>
+    </div>
+
+    <button class="start-btn">Start New Game</button>
+  </div>
+</body>
+</html>
