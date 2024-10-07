@@ -1,438 +1,379 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;500;700&display=swap');
 
-  :root {
-    --bg-gradient: linear-gradient(135deg, #0a0a0a 0%, #1e1b4b 100%);
-    --card-bg: linear-gradient(145deg, rgba(30, 41, 59, 0.7) 0%, rgba(30, 27, 75, 0.7) 100%);
-    --primary-color: #4CAF50;
-    --primary-gradient: linear-gradient(90deg, #4CAF50, #45a049);
-    --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
-    --red-gradient: linear-gradient(90deg, #ef4444 0%, #b91c1c 100%);
-    --blue-gradient: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 100%);
-    --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    --hover-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  body {
-    font-family: 'Poppins', sans-serif;
-    background: var(--bg-gradient);
-    min-height: 100vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin: 0;
-    padding: 20px;
-    color: var(--text-primary);
-    overflow-x: hidden;
-    position: relative;
-  }
-
-  .container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    align-items: flex-start;
-    width: 100%;
-    z-index: 2;
-  }
-
-  .game-container, .game-list-container, .auto-bet-container, .right-side-container {
-    background: var(--card-bg);
-    border-radius: 24px;
-    padding: 32px;
-    box-shadow: var(--card-shadow);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: var(--hover-transition);
-  }
-
-  .game-container, .game-list-container, .auto-bet-container {
-    flex: 1;
-    min-width: 300px;
-    max-width: 400px;
-  }
-
-  .right-side-container {
-    flex: 2;
-    min-height: 600px;
-    align-self: stretch;
-  }
-
-  .section {
-    margin-bottom: 28px;
-  }
-
-  .section-title {
-    color: var(--text-secondary);
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 16px;
-    font-family: 'Orbitron', sans-serif;
-  }
-
-  .bet-input {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    padding: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: var(--hover-transition);
-  }
-
-  .bet-input:focus-within {
-    border-color: var(--primary-color);
-  }
-
-  .bet-amount {
-    background: transparent;
-    border: none;
-    color: var(--text-primary);
-    font-size: 18px;
-    font-weight: 600;
-    padding: 12px;
-    width: 100%;
-    outline: none;
-    font-family: 'Orbitron', sans-serif;
-  }
-
-  .bet-controls, .auto-bet-controls {
-    display: flex;
-    gap: 8px;
-  }
-
-  .control-btn, .auto-bet-btn, .cup-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    color: var(--text-secondary);
-    padding: 10px 14px;
-    border-radius: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: var(--hover-transition);
-    font-family: 'Orbitron', sans-serif;
-  }
-
-  .control-btn:hover, .auto-bet-btn:hover, .cup-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    color: var(--text-primary);
-    transform: translateY(-2px);
-  }
-
-  .color-options {
-    display: flex;
-    gap: 16px;
-  }
-
-  .color-option {
-    flex: 1;
-    height: 64px;
-    border-radius: 16px;
-    cursor: pointer;
-    position: relative;
-    transition: var(--hover-transition);
-    overflow: hidden;
-  }
-
-  .color-option:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  }
-
-  .color-option.red {
-    background: var(--red-gradient);
-  }
-
-  .color-option.blue {
-    background: var(--blue-gradient);
-  }
-
-  .color-option input {
-    display: none;
-  }
-
-  .color-option input:checked + .color-indicator {
-    opacity: 1;
-  }
-
-  .color-indicator {
-    position: absolute;
-    inset: -3px;
-    border: 2px solid white;
-    border-radius: 18px;
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-
-  .cups-options {
-    display: flex;
-    gap: 12px;
-  }
-
-  .cup-btn.active {
-    background: var(--primary-gradient);
-    color: var(--text-primary);
-  }
-
-  .start-btn {
-    background: var(--primary-gradient);
-    border: none;
-    color: var(--text-primary);
-    width: 100%;
-    padding: 18px;
-    border-radius: 16px;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--hover-transition);
-    background-size: 200% 200%;
-    animation: gradient 5s ease infinite;
-    font-family: 'Orbitron', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-  }
-
-  .start-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
-  }
-
-  .input-game-code {
-    padding: 16px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.2);
-    color: var(--text-primary);
-    width: calc(100% - 32px);
-    margin-bottom: 16px;
-    outline: none;
-    font-size: 16px;
-    text-align: center;
-    transition: var(--hover-transition);
-    font-family: 'Orbitron', sans-serif;
-  }
-
-  .input-game-code:focus {
-    border-color: var(--primary-color);
-  }
-
-  .game-list {
-    max-height: 300px;
-    overflow-y: auto;
-    border-radius: 16px;
-    background: rgba(0, 0, 0, 0.2);
-    padding: 8px;
-  }
-
-  .game-item {
-    padding: 16px;
-    border-radius: 12px;
-    color: var(--text-primary);
-    cursor: pointer;
-    transition: var(--hover-transition);
-    margin-bottom: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    font-family: 'Orbitron', sans-serif;
-  }
-
-  .game-item:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateX(4px);
-  }
-
-  .button-group {
-    display: flex;
-    gap: 16px;
-    margin-top: 24px;
-  }
-
-  .button-group .control-btn {
-    flex: 1;
-    padding: 16px;
-    font-size: 16px;
-    font-weight: 600;
-  }
-
-  @keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  .game-list::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  .game-list::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-  }
-
-  .game-list::-webkit-scrollbar-thumb {
-    background: var(--primary-color);
-    border-radius: 4px;
-  }
-
-  .background-elements {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  .floating-shape {
-    position: absolute;
-    opacity: 0.1;
-    filter: blur(3px);
-    animation: float 15s infinite alternate;
-  }
-
-  .crypto-symbol {
-    font-size: 2rem;
-    color: #FFC107;
-    position: absolute;
-    opacity: 0.15;
-    animation: floatShade 20s infinite alternate;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(5deg); }
-  }
-
-  @keyframes floatShade {
-    0%, 100% { transform: translateY(0px) rotate(-10deg); opacity: 0.1;}
-    50% { transform: translateY(-10px) rotate(10deg); opacity: 0.15; }
-  }
-
-  .grid-lines {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
-      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
-    z-index: 1;
-  }
-
-  @media screen and (max-width: 768px) {
     body {
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+        font-family: 'Poppins', sans-serif;
+        background: #0a0a0a;
+        color: #ffffff;
+        overflow-x: hidden;
     }
 
-    .container {
-      flex-direction: column;
-      width: 100%;
+    /* Games Section Styles */
+    .games-section {
+        min-height: 100vh;
+        padding: 4rem 2rem;
+        position: relative;
+        overflow: hidden;
+        background: 
+            linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, rgba(33, 150, 243, 0.05) 100%),
+            #0a0a0a;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
-    .right-side-container {
-      width: 100%;
-      min-width: 280px;
-      height: auto;
+    .games-section h2 {
+        text-align: center;
+        font-size: 4.5rem;
+        font-family: 'Orbitron', sans-serif;
+        margin-bottom: 3rem;
+        position: relative;
+        z-index: 2;
+        background: linear-gradient(90deg, #4CAF50, #8BC34A, #388E3C);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+        letter-spacing: 2px;
+        position: relative;
+        display: inline-block;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: pulseTextShadow 2s infinite;
     }
-  }
+
+    @keyframes pulseTextShadow {
+        0%, 100% {
+            text-shadow: 0 0 15px rgba(76, 175, 80, 0.5), 0 0 30px rgba(56, 142, 60, 0.7);
+        }
+        50% {
+            text-shadow: 0 0 20px rgba(76, 175, 80, 0.7), 0 0 40px rgba(56, 142, 60, 1);
+        }
+    }
+
+    .game-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2.5rem;
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+    }
+
+    .game-card {
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 20px;
+        padding: 2.5rem;
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+    }
+
+    .game-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 50% 0%, rgba(76, 175, 80, 0.1), transparent 70%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .game-card:hover::before {
+        opacity: 1;
+    }
+
+    .game-card:hover {
+        transform: translateY(-15px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+                    0 0 30px rgba(76, 175, 80, 0.2);
+    }
+
+    .game-icon {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        transition: all 0.4s ease;
+        position: relative;
+    }
+
+    .game-icon i {
+        background: linear-gradient(135deg, #FFC107, #4CAF50);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.3));
+    }
+
+    .game-card:hover .game-icon {
+        transform: scale(1.1) rotate(5deg);
+        filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.5));
+    }
+
+    .game-card h3 {
+        font-size: 2rem;
+        font-family: 'Orbitron', sans-serif;
+        color: #ffffff;
+        margin-bottom: 1rem;
+        letter-spacing: 1px;
+    }
+
+    .game-card p {
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        flex-grow: 1;
+    }
+
+    .play-button {
+        display: inline-block;
+        padding: 1rem 2.5rem;
+        background: linear-gradient(90deg, #4CAF50, #45a049);
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-family: 'Orbitron', sans-serif;
+        cursor: pointer;
+    }
+
+    .play-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .play-button:hover::before {
+        left: 100%;
+    }
+
+    .play-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+    }
+
+    .play-button:active {
+        background: linear-gradient(90deg, #45a049, #4CAF50);
+        box-shadow: none;
+    }
+
+    /* Cool Background Elements */
+    .background-elements {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .floating-shape {
+        position: absolute;
+        opacity: 0.1;
+        filter: blur(3px);
+        animation: float 15s infinite alternate;
+    }
+
+    .crypto-symbol {
+        font-size: 2rem;
+        color: #FFC107;
+        position: absolute;
+        opacity: 0.15;
+        animation: floatShade 20s infinite alternate;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(5deg); }
+    }
+
+    @keyframes floatShade {
+        0%, 100% { transform: translateY(0px) rotate(-10deg); opacity: 0.1;}
+        50% { transform: translateY(-10px) rotate(10deg); opacity: 0.15; }
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); opacity: 0.1; }
+        50% { transform: scale(1.1); opacity: 0.15; }
+    }
+
+    /* Particle Animation on Hover */
+    .particle-effect {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        background: rgba(255, 255, 255, 0.15);
+        animation: particle-move 1s ease-out forwards;
+    }
+
+    @keyframes particle-move {
+        to {
+            transform: translateX(200px) scale(0);
+            opacity: 0;
+        }
+    }
+
+    /* Grid Lines */
+    .grid-lines {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+        z-index: 1;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .games-section h2 {
+            font-size: 3rem;
+        }
+        
+        .game-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .game-card {
+            padding: 2rem;
+        }
+    }
 </style>
 </head>
 <body>
-  <div class="grid-lines"></div>
-  <div class="background-elements" id="backgroundElements"></div>
 
-  <div class="container">
-    <div class="game-container">
-      <div class="section">
-        <div class="section-title">Bet Amount</div>
-        <div class="bet-input">
-          <input type="text" class="bet-amount" value="10">
-          <div class="bet-controls">
-            <button class="control-btn">½</button>
-            <button class="control-btn">2×</button>
-            <button class="control-btn">Max</button>
-          </div>
+<div class="grid-lines"></div>
+
+<section class="games-section">
+    <h2 data-text="POPULAR GAMES">POPULAR GAMES</h2>
+    <div class="game-grid">
+        <div class="game-card">
+            <div class="game-icon"><i class="fas fa-coins"></i></div>
+            <h3>Coin Flip Pro</h3>
+            <p>Enter the arena of chance where fortunes are made. Double your crypto with each successful prediction!</p>
+            <a href="#" class="play-button ripple">Play Now</a>
         </div>
-      </div>
-
-      <div class="section">
-        <div class="section-title">Select Color</div>
-        <div class="color-options">
-          <label class="color-option red">
-            <input type="radio" name="color" checked>
-            <div class="color-indicator"></div>
-          </label>
-          <label class="color-option blue">
-            <input type="radio" name="color">
-            <div class="color-indicator"></div>
-          </label>
+        <div class="game-card">
+            <div class="game-icon"><i class="fas fa-briefcase"></i></div>
+            <h3>Case Royale</h3>
+            <p>Unleash the thrill of epic case battles. Challenge rivals and claim victory doubling your crypto!</p>
+            <a href="#" class="play-button ripple">Battle Now</a>
         </div>
-      </div>
-
-      <div class="section">
-        <div class="section-title">Number of Games</div>
-        <div class="cups-options">
-          <button class="cup-btn active">1</button>
-          <button class="cup-btn">2</button>
-          <button class="cup-btn">3</button>
+        <div class="game-card">
+            <div class="game-icon"><i class="fas fa-dice"></i></div>
+            <h3>Quantum Dice</h3>
+            <p>Where probability meets destiny. Roll the quantum dice and let fortune favor the bold!</p>
+            <a href="#" class="play-button ripple">Roll Dice</a>
         </div>
-      </div>
-
-      <button class="start-btn">Start New Game</button>
+        <div class="game-card">
+            <div class="game-icon"><i class="fas fa-chart-line"></i></div>
+            <h3>Crypto Crash</h3>
+            <p>Ride the wave of multipliers in this high-stakes thrill ride. How long can you hold before the crash?</p>
+            <a href="#" class="play-button ripple">Start Game</a>
+        </div>
     </div>
+</section>
 
-    <div class="game-list-container">
-      <div class="section">
-        <div class="section-title">Join Existing Game</div>
-        <input type="text" class="input-game-code" placeholder="Enter game code">
-      </div>
+<div class="background-elements" id="backgroundElements"></div>
 
-      <div class="section">
-        <div class="section-title">Available Games</div>
-        <div class="game-list">
-          <div class="game-item">Game #A7X9B2 - 2 Players</div>
-          <div class="game-item">Game #C5D3E8 - 1 Player</div>
-          <div class="game-item">Game #F2G6H1 - 3 Players</div>
-          <div class="game-item">Game #J4K8L5 - 2 Players</div>
-        </div>
-      </div>
+<script>
+// Create floating background elements
+function createBackgroundElements() {
+    const container = document.getElementById('backgroundElements');
+    const elements = 20;
 
-      <div class="button-group">
-        <button class="control-btn">Join Game</button>
-        <button class="control-btn">Create Game</button>
-      </div>
-    </div>
+    for (let i = 0; i < elements; i++) {
+        // Create crypto symbols
+        const symbol = document.createElement('div');
+        symbol.className = 'crypto-symbol';
+        symbol.innerHTML = ['₿', 'Ξ', '◈', '★'][Math.floor(Math.random() * 4)];
+        symbol.style.left = `${Math.random() * 100}%`;
+        symbol.style.top = `${Math.random() * 100}%`;
+        container.appendChild(symbol);
 
-    <div class="auto-bet-container">
-      <div class="section">
-        <div class="section-title">Auto Bet Settings</div>
-        <div class="bet-input">
-          <input type="text" class="bet-amount" placeholder="Bet Amount">
-          <div class="auto-bet-controls">
-            <button class="auto-bet-btn">½</button>
-            <button class="auto-bet-btn">2×</button>
-            <button class="auto-bet-btn">Max</button>
-          </div>
-        </div>
-      </div>
+        // Create geometric shapes
+        const shape = document.createElement('div');
+        shape.className = 'floating-shape';
+        shape.style.left = `${Math.random() * 100}%`;
+        shape.style.top = `${Math.random() * 100}%`;
+        shape.style.width = `${20 + Math.random() * 30}px`;
+        shape.style.height = shape.style.width;
+        shape.style.backgroundColor = ['#4CAF50', '#FFC107', '#2196F3'][Math.floor(Math.random() * 3)];
+        shape.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        container.appendChild(shape);
+    }
+
+    floatingParticles();
+}
+
+// Particles effect on button click
+document.querySelectorAll('.ripple').forEach(button => {
+    button.addEventListener('click', e => {
+        let x = e.clientX - e.target.offsetLeft;
+        let y = e.clientY - e.target.offsetTop;
+        let particleElement = document.createElement('div');
+        particleElement.className = 'particle-effect';
+        particleElement.style.left = `${x}px`;
+        particleElement.style.top = `${y}px`;
+        e.target.appendChild(particleElement);
+
+        setTimeout(() => particleElement.remove(), 1000);
+    });
+});
+
+// Floating star-like particles function
+function floatingParticles() {
+    for (let i = 0; i < 100; i++) {
+        const star = document.createElement('i');
+        star.classList.add('floating-shape');
+        star.style.width = '2px';
+        star.style.height = '2px';
+        star.style.position = 'absolute';
+        star.style.left = `${Math.random() * window.innerWidth}px`;
+        star.style.top = `${Math.random() * window.innerHeight}px`;
+        star.style.background = 'rgba(255, 255, 255, 0.3)';
+        star.style.animation = `pulse ${3 + Math.random() * 5}s infinite`;
+        document.body.appendChild(star);
+    }
+}
+
+// Initialize background elements
+createBackgroundElements();
+</script>
+
+</body>
+</html>
