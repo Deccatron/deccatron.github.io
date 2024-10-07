@@ -272,52 +272,13 @@
         </div>
     </div>
 
-    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
     <script>
-        const socket = io('http://localhost:4000'); // Point this to your server address
-
         let selectedColor = '';
         let activeGame = null;
-        let myName = `User-${Math.random().toString(36).substring(7)}`; // Simulate unique user, use an actual unique identifier when deploying
-
-        socket.on('currentGames', function (games) {
-            games.forEach(addGameToList);
-        });
-
-        socket.on('newGame', function (game) {
-            addGameToList(game);
-        });
-
-        socket.on('gameJoined', function (gameCode) {
-            const gameElements = document.querySelectorAll('.game-item');
-            gameElements.forEach((gameElement) => {
-                if (gameElement.dataset.gameCode === gameCode) {
-                    gameElement.remove();
-                }
-            });
-        });
-
-        socket.on('error', function (message) {
-            alert(message);
-        });
-
-        function addGameToList(game) {
-            const newGame = document.createElement('div');
-            newGame.classList.add('game-item');
-            newGame.textContent = `Bet: ${game.amount} - Color: ${game.color} by ${game.creatorName}`;
-            newGame.dataset.gameCode = game.code;
-
-            newGame.addEventListener('click', function () {
-                activeGame = game;
-                document.getElementById('join-game').classList.remove('hidden');
-            });
-
-            document.getElementById('game-list').appendChild(newGame);
-        }
 
         // Color selection
         document.querySelectorAll('.color-option').forEach(option => {
-            option.addEventListener('click', function () {
+            option.addEventListener('click', function() {
                 document.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
                 this.classList.add('selected');
                 selectedColor = this.getAttribute('data-color');
@@ -325,29 +286,30 @@
         });
 
         // Launch Bet
-        document.getElementById('launch-bet').addEventListener('click', function () {
+        document.getElementById('launch-bet').addEventListener('click', function() {
             const betAmount = document.getElementById('bet-amount').value;
 
             if (betAmount && selectedColor) {
-                const newGame = {
-                    amount: betAmount,
-                    color: selectedColor,
-                    creatorName: myName,
-                    creatorId: myName, // Replace this with the user's unique ID
-                    code: Math.random().toString(36).substring(2, 7) // Unique game code
-                };
+                const newGame = document.createElement('div');
+                newGame.classList.add('game-item');
+                newGame.textContent = `Bet: ${betAmount} - Color: ${selectedColor}`;
+                newGame.dataset.betAmount = betAmount;
+                newGame.dataset.color = selectedColor;
+                newGame.addEventListener('click', function() {
+                    activeGame = this;
+                    document.getElementById('join-game').classList.toggle('hidden', false);
+                });
 
-                socket.emit('createGame', newGame);
+                document.getElementById('game-list').appendChild(newGame);
             } else {
-                alert('Please select both bet amount and color.');
+                alert("Please select both bet amount and color.");
             }
         });
 
         // Join Game
-        document.getElementById('join-game').addEventListener('click', function () {
+        document.getElementById('join-game').addEventListener('click', function() {
             if (activeGame) {
-                socket.emit('joinGame', activeGame.code);
-                window.location.href = 'c_in_play.html'; // Redirect to the game playing page
+                window.location.href = 'c_in_play.html';
             }
         });
 
