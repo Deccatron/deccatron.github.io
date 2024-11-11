@@ -1,98 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FairBet - Your Trusted Gaming Platform</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>RezWare</title>
     <link rel="stylesheet" href="styles.css">
+    <meta property="og:type" content="RezWare Executor">
+    <meta property="og:title" content="RezWare Executor">
+    <meta property="og:description" content="Newest executor for roblox">
+    <meta property="og:image" content="logo.png"> <!-- Укажите путь к вашему логотипу -->
+    <meta property="og:url" content="https://rezware.vercel.app/"> <!-- Укажите URL сайта -->
+    <style>
+        /* Блокировка контекстного меню */
+        body {
+            user-select: none; /* Запрещает выделение текста */
+        }
+
+        /* Блокировка правой кнопки мыши */
+        body {
+            -webkit-user-select: none; /* Для Safari */
+            -moz-user-select: none; /* Для Firefox */
+            -ms-user-select: none; /* Для IE10+ */
+        }
+    </style>
 </head>
 <body>
-<header>
-    <nav>
-        <div class="logo">
-            <a href="index.html"><i class="fas fa-dice"></i> FairBet</a>
+    <div class="container">
+        <h1>RezWare, the first internal roblox executor</h1>
+        <p class="description">Fuck you synapse :)</p>
+        <div class="button-group">
+            <a href="https://github.com/deccatron" class="button">Github</a>
+            <a href="#" class="button download-button" id="downloadBtn">Download</a>
         </div>
-        <div class="nav-links">
-            <a href="play.html">Games</a>
-            <a href="#promotions">Promotions</a>
-            <a href="#vip">VIP Club</a>
-            <a href="#support">Support</a>
-            <a href="#" class="nav-cta">Join Now</a>
-        </div>
-    </nav>
-</header>
-
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-tagline">Where Fair Play Meets Big Wins</div>
-            <h1>Welcome to <span class="highlight">FairBet</span></h1>
-            <p>The only gaming platform with no house edge, no rigging, and 100% fair play, True 50/50 competition</p>
-            <div class="jackpot-container">
-                <div class="jackpot-label">Current Jackpot:</div>
-                <div id="jackpot-counter">$1,000,000</div>
-            </div>
-            <div class="cta-container">
-                <a href="play.html" class="cta-button primary">Play Now</a>
-                <a href="#" class="cta-button secondary">Learn More</a>
-            </div>
-        </div>
-        <div class="floating-elements">
-            <div class="floating-card card-1">♠️</div>
-            <div class="floating-card card-2">♦️</div>
-            <div class="floating-card card-3">♣️</div>
-            <div class="floating-card card-4">♥️</div>
-        </div>
-    </section>
-
-    <section class="features">
-        <div class="feature">
-            <i class="fas fa-shield-alt"></i>
-            <h2>100% Secure</h2>
-            <p>Top-tier encryption and fair play guarantee</p>
-        </div>
-        <div class="feature">
-            <i class="fas fa-gift"></i>
-            <h2>Epic Rewards</h2>
-            <p>Daily bonuses and exclusive promotions</p>
-        </div>
-        <div class="feature">
-            <i class="fas fa-headset"></i>
-            <h2>24/7 Support</h2>
-            <p>Expert assistance always at your service</p>
-        </div>
-        <div class="feature">
-            <i class="fas fa-mobile-alt"></i>
-            <h2>Play Anywhere</h2>
-            <p>Seamless experience across all devices</p>
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>About FairBet</h3>
-                <p>Your trusted destination for fair and exciting online gaming.</p>
-                <p>We don't stand for house edges or rigging.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <a href="#">Terms & Conditions</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Responsible Gaming</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2024 FairBet. Please gamble responsibly. 18+</p>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
-
-    <div class="glowing-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
+        <p class="credits">Developed By Deccatron</p>
     </div>
-    <div class="particles"></div>
+
+    <script>
+        // Блокировка контекстного меню (правый клик)
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+        });
+
+        document.getElementById('downloadBtn').addEventListener('click', function(event) {
+            event.preventDefault();
+
+            fetch('https://api.github.com/repos/danlachoi/RezWare/releases/latest')
+                .then(response => response.json())
+                .then(data => {
+                    const downloadUrl = data.assets[0].browser_download_url;
+                    const link = document.createElement('a');
+                    link.href = downloadUrl;
+                    link.download = ''; // Optionally specify the file name
+                    link.click();
+                })
+                .catch(error => {
+                    console.error('Error fetching the release data:', error);
+                });
+        });
+    </script>
 </body>
 </html>
