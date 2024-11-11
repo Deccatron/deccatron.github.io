@@ -11,16 +11,15 @@
     <meta property="og:image" content="logo.png"> <!-- Укажите путь к вашему логотипу -->
     <meta property="og:url" content="https://rezware.vercel.app/"> <!-- Укажите URL сайта -->
     <style>
-        /* Блокировка контекстного меню */
+   
         body {
-            user-select: none; /* Запрещает выделение текста */
+            user-select: none;
         }
-
-        /* Блокировка правой кнопки мыши */
+        
         body {
-            -webkit-user-select: none; /* Для Safari */
-            -moz-user-select: none; /* Для Firefox */
-            -ms-user-select: none; /* Для IE10+ */
+            -webkit-user-select: none; 
+            -moz-user-select: none; 
+            -ms-user-select: none; 
         }
     </style>
 </head>
@@ -36,7 +35,7 @@
     </div>
 
     <script>
-        // Блокировка контекстного меню (правый клик)
+   
         document.addEventListener('contextmenu', function(event) {
             event.preventDefault();
         });
