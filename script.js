@@ -17,3 +17,13 @@ document.getElementById('downloadBtn').addEventListener('click', function(event)
             console.error('Error fetching the release data:', error);
         });
 });
+
+// Track mouse position and update custom properties
+document.addEventListener('mousemove', (event) => {
+    const mouseX = (event.clientX / window.innerWidth) * 100;
+    const mouseY = (event.clientY / window.innerHeight) * 100;
+
+    // Update the CSS variables dynamically based on mouse position
+    document.documentElement.style.setProperty('--mouse-x', `${mouseX}%`);
+    document.documentElement.style.setProperty('--mouse-y', `${mouseY}%`);
+});
