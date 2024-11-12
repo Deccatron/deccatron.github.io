@@ -5,6 +5,9 @@
     --accent-color: #ff3366;
     --button-dark: #1a1a1a;
     --button-hover: #2a2a2a;
+    --glow-color-1: rgba(255, 51, 102, 0.15);
+    --glow-color-2: rgba(82, 45, 255, 0.15);
+    --glow-color-3: rgba(51, 255, 190, 0.15);
 }
 
 * {
@@ -36,21 +39,92 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: 
-        radial-gradient(circle at 20% 20%, #ff336622 0%, transparent 40%),
-        radial-gradient(circle at 80% 80%, #ff336622 0%, transparent 40%);
     z-index: -1;
-    animation: pulse 8s ease infinite;
+    background: 
+        linear-gradient(to bottom right, var(--bg-primary), #1a1a1a),
+        radial-gradient(circle at 20% 20%, var(--glow-color-1) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, var(--glow-color-2) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, var(--glow-color-3) 0%, transparent 50%);
+    animation: gradientShift 30s ease infinite; /* Slower gradient animation (increased duration to 30s) */
+    overflow: hidden;
 }
 
-@keyframes pulse {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 0.8; }
+/* Add floating orbs */
+.background::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(2px at 20% 30%, white, transparent),
+        radial-gradient(2px at 40% 70%, white, transparent),
+        radial-gradient(2px at 60% 20%, white, transparent),
+        radial-gradient(2px at 80% 40%, white, transparent);
+    animation: floatingOrbs 40s linear infinite; /* Slower orbs animation (increased duration to 40s) */
+    opacity: 0.3;
 }
 
-.container {
-    padding: 2rem;
-    max-width: 800px;
+.background::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(
+            circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            var(--glow-color-1) 0%,
+            transparent 40%
+        );
+    opacity: 0.4;
+    mix-blend-mode: screen;
+    transition: all 0.3s ease;
+    filter: blur(40px);
+}
+
+.aurora {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.aurora__item {
+    overflow: hidden;
+    position: absolute;
+    width: 60%;
+    height: 60%;
+    background: var(--glow-color-1);
+    filter: blur(90px);
+    mix-blend-mode: screen;
+    opacity: 0.4;
+    animation: auroraWave 40s ease infinite; /* Slower aurora animation (increased duration to 40s) */
+}
+
+.aurora__item:nth-child(1) {
+    top: -50%;
+    background: var(--glow-color-1);
+    animation-delay: 0s;
+}
+
+.aurora__item:nth-child(2) {
+    top: 20%;
+    right: -30%;
+    background: var(--glow-color-2);
+    animation-delay: -5s;
+}
+
+.aurora__item:nth-child(3) {
+    bottom: -10%;
+    left: 20%;
+    background: var(--glow-color-3);
+    animation-delay: -10s;
 }
 
 h1 {
@@ -111,12 +185,7 @@ h1 {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.1),
-        transparent
-    );
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
     transition: 0.5s;
 }
 
@@ -149,25 +218,13 @@ h1 {
 }
 
 @keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeIn {
@@ -175,11 +232,55 @@ h1 {
     to { opacity: 1; }
 }
 
+@keyframes auroraWave {
+    0%, 100% {
+        transform: translate(0%, 0%) rotate(0deg) scale(1);
+    }
+    25% {
+        transform: translate(10%, 10%) rotate(45deg) scale(1.2);
+    }
+    50% {
+        transform: translate(-5%, 15%) rotate(90deg) scale(1.1);
+    }
+    75% {
+        transform: translate(-15%, -5%) rotate(45deg) scale(0.9);
+    }
+}
+
+@keyframes floatingOrbs {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    100% {
+        transform: translateY(-100%) rotate(360deg);
+    }
+}
+
+@keyframes gradientShift {
+    0%, 100% {
+        transform: scale(1) rotate(0deg);
+    }
+    50% {
+        transform: scale(1.1) rotate(1deg);
+    }
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.05);
+    }
+}
+
 @media (max-width: 640px) {
     .button-group {
         flex-direction: column;
     }
-    
+
     .button {
         width: 100%;
     }
@@ -192,85 +293,3 @@ h1 {
         transition-duration: 0.01ms !important;
     }
 }
-
-:root {
-    --bg-primary: #0c0c0c;
-    --text-primary: #ffffff;
-    --text-secondary: #888888;
-    --accent-color: #ff3366;
-    --button-dark: #1a1a1a;
-    --button-hover: #2a2a2a;
-}
-
-/* Rest of the CSS remains the same until the background class */
-
-.background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: 
-        linear-gradient(to bottom right, #0c0c0c, #1a1a1a),
-        radial-gradient(circle at 20% 20%, rgba(255, 51, 102, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(255, 51, 102, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 50% 50%, rgba(255, 51, 102, 0.1) 0%, transparent 50%);
-    animation: gradientShift 15s ease infinite;
-}
-
-.background::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    opacity: 0.05;
-    mix-blend-mode: overlay;
-    pointer-events: none;
-}
-
-.background::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
-                rgba(255, 51, 102, 0.1) 0%, 
-                transparent 40%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    animation: pulseGlow 4s ease infinite;
-}
-
-@keyframes gradientShift {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
-}
-
-@keyframes pulseGlow {
-    0%, 100% {
-        opacity: 0.3;
-    }
-    50% {
-        opacity: 0.6;
-    }
-}
-
-/* Add this JavaScript to track mouse movement */
-/* 
-document.addEventListener('mousemove', (e) => {
-    const x = (e.clientX / window.innerWidth) * 100;
-    const y = (e.clientY / window.innerHeight) * 100;
-    document.documentElement.style.setProperty('--mouse-x', `${x}%`);
-    document.documentElement.style.setProperty('--mouse-y', `${y}%`);
-}); 
-*/
