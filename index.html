@@ -4,61 +4,201 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RezWare</title>
-    <link rel="stylesheet" href="styles.css">
-    <meta property="og:type" content="RezWare Executor">
-    <meta property="og:title" content="RezWare Executor">
-    <meta property="og:description" content="Newest executor for roblox">
-    <meta property="og:image" content="logo.png">
-    <meta property="og:url" content="https://rezware.vercel.app/">
     <style>
-        /* Prevent text selection */
-        body {
-            user-select: none;
-            -webkit-user-select: none; 
-            -moz-user-select: none; 
-            -ms-user-select: none; 
+        :root {
+            --bg-primary: #0f0f0f;
+            --bg-secondary: #0f0f0f;
+            --text-primary: #f0f0f0;
+            --text-secondary: #a0a0a0;
+            --accent-color: #6a11cb;
+            --accent-color-hover: #8e43e7;
+            --button-dark: #1a1a1a;
+            --button-hover: #2a2a2a;
+            --glow-color-1: rgba(106, 17, 203, 0.2);
+            --glow-color-2: rgba(5, 28, 68, 0.2);
+            --glow-color-3: rgba(2, 70, 47, 0.15);
+            --gui-glow-color: rgba(110, 33, 182, 0.5);
         }
 
-        /* Center content */
-        .container {
-            position: relative;
-            z-index: 1;
-            text-align: center;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-primary);
             color: var(--text-primary);
             font-family: system-ui, -apple-system, Arial, sans-serif;
-            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 0 1rem;
+        }
+
+        .website-by {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            z-index: 11;
+            animation: fadeIn 1s ease 1.2s forwards;
+            opacity: 0;
+        }
+
+        .author-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .author-link:hover {
+            color: #631966;
+        }
+
+        .background {
+            background: 
+                linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%),
+                repeating-linear-gradient(
+                    45deg, 
+                    transparent, 
+                    transparent 50px, 
+                    rgba(18, 18, 38, 0.05) 50px, 
+                    rgba(18, 18, 38, 0.05) 100px
+                );
+            background-blend-mode: overlay;
+            box-shadow: 
+                0 -50px 100px -20px rgba(93, 63, 221, 0.1) inset,
+                0 50px 100px -20px rgba(37, 37, 90, 0.1) inset;
+        }
+
+        .background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(93, 63, 221, 0.1), transparent 30%),
+                radial-gradient(circle at 80% 20%, rgba(37, 37, 90, 0.1), transparent 30%);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .background::after {
+            background: 
+                radial-gradient(
+                    circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+                    var(--glow-color-1) 0%, 
+                    transparent 50%
+                );
+            opacity: 0.3;
+            filter: blur(60px);
+        }
+
+        .aurora {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .gui-image {
+            transition: transform 0.2s ease-out, box-shadow 0.3s ease;
+            transform-style: preserve-3d;
+            will-change: transform, box-shadow;
+            width: 100%;
+            max-width: 320px;
+            margin: 2rem auto;
+            display: block;
+            box-shadow: 0 0 30px var(--gui-glow-color);
+            animation: pulseGlow 5s infinite alternate;
+        }
+
+        .gui-image.interactive {
+            box-shadow: 0 0 50px var(--gui-glow-color);
+        }
+
+        .aurora__item {
+            overflow: hidden;
+            position: absolute;
+            width: 60%;
+            height: 60%;
+            background: var(--glow-color-1);
+            filter: blur(90px);
+            mix-blend-mode: screen;
+            opacity: 0.4;
+            animation: auroraWave 40s ease infinite;
+        }
+
+        .aurora__item:nth-child(1) {
+            top: -50%;
+            background: var(--glow-color-1);
+            animation-delay: 0s;
+        }
+
+        .aurora__item:nth-child(2) {
+            top: 20%;
+            right: -30%;
+            background: var(--glow-color-2);
+            animation-delay: -5s;
+        }
+
+        .aurora__item:nth-child(3) {
+            bottom: -10%;
+            left: 20%;
+            background: var(--glow-color-3);
+            animation-delay: -10s;
         }
 
         h1 {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-size: clamp(1.5rem, 4vw, 2rem);
             font-weight: 800;
             margin-bottom: 1.5rem;
             line-height: 1.2;
             text-transform: uppercase;
             letter-spacing: -0.5px;
+            animation: fadeInDown 1s ease forwards;
+            padding: 0 1rem;
         }
 
         .description {
             color: var(--accent-color);
-            font-size: clamp(1rem, 2vw, 1.25rem);
-            margin-bottom: 2.5rem;
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
+            margin-bottom: 2rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
+            animation: fadeIn 1s ease 0.3s forwards;
+            opacity: 0;
+            padding: 0 1rem;
         }
 
         .button-group {
             display: flex;
-            gap: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
             justify-content: center;
-            margin: 2.5rem 0;
+            animation: fadeInUp 1s ease 0.6s forwards;
+            opacity: 0;
         }
 
         .button {
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 1rem 2rem;
+            padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
             text-decoration: none;
             font-weight: 600;
@@ -66,11 +206,11 @@
             background-color: var(--button-dark);
             transition: all 0.3s ease;
             border: 1px solid #333;
-            min-width: 160px;
+            min-width: 140px;
             justify-content: center;
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             position: relative;
             overflow: hidden;
         }
@@ -102,66 +242,233 @@
         }
 
         .download-button:hover {
-            background-color: #ff4777;
+            background-color: #692a94;
         }
 
         .credits {
             color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-top: 2rem;
+            font-size: 0.85rem;
+            margin-top: 1.5rem;
+            animation: fadeIn 1s ease 0.9s forwards;
+            opacity: 0;
             letter-spacing: 1px;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes auroraWave {
+            0%, 100% {
+                transform: translate(0%, 0%) rotate(0deg) scale(1);
+            }
+            25% {
+                transform: translate(10%, 10%) rotate(45deg) scale(1.2);
+            }
+            50% {
+                transform: translate(-5%, 15%) rotate(90deg) scale(1.1);
+            }
+            75% {
+                transform: translate(-15%, -5%) rotate(45deg) scale(0.9);
+            }
+        }
+
+        @keyframes floatingOrbs {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100%) rotate(360deg);
+            }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+            }
+            50% {
+                transform: scale(1.1) rotate(1deg);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 0 0 30px var(--gui-glow-color);
+            }
+            50% {
+                box-shadow: 0 0 40px var(--gui-glow-color);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .button {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.25rem;
+            }
+
+            .description {
+                font-size: 0.9rem;
+            }
+
+            .credits {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-top: 4.5rem; /* Adjusted margin to position footer lower */
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 1s ease 1.2s forwards;
+            opacity: 0;
+        }
+
+        .copyright::before,
+        .copyright::after {
+            content: "";
+            flex-grow: 1;
+            height: 1px;
+            background-color: var(--text-secondary);
+            margin: 0 1rem;
+        }
+
+        /* New dynamic style classes */
+        .large-screen .gui-image {
+            max-width: 500px;
+        }
+
+        .large-screen h1 {
+            font-size: 2.5rem;
+        }
+
+        .large-screen .description {
+            font-size: 1.5rem;
         }
     </style>
 </head>
 <body>
-    <div class="background"></div> <!-- This will be the background layer -->
-    <div class="aurora"> <!-- Aurora effect -->
+    <div class="background"></div>
+    <div class="aurora">
         <div class="aurora__item"></div>
         <div class="aurora__item"></div>
         <div class="aurora__item"></div>
     </div>
-
     <div class="container">
-        <h1>RezWare, the first internal roblox executor</h1>
-        <p class="description">Fuck you synapse :)</p>
+        <h1>RezWare an external script utility <span style="color: #8B00FF;">after Byfron</span></h1>
+        <p class="description">Unc 89, Lvl 3</p>
+        <img src="screenshot.png" alt="RezWare GUI" class="gui-image">
         <div class="button-group">
-            <a href="https://github.com/deccatron" class="button">Github</a>
+            <a href="https://discord.gg/RezWare" class="button">Discord</a>
             <a href="#" class="button download-button" id="downloadBtn">Download</a>
         </div>
-        <p class="credits">Developed By Dexter Sitwell</p>
+        <p class="credits">Developed By @Danlacho</p>
+        <p class="copyright">Copyright © 2024 RezWare Team</p>
+    </div>
+
+    <div class="website-by">
+        Website by <a href="#" class="author-link">Acevincente</a>
     </div>
 
     <script>
-        // Prevent right-click context menu
         document.addEventListener('contextmenu', function(event) {
             event.preventDefault();
         });
 
-        // Fetch the latest release and trigger download
+        const container = document.querySelector('.container');
+
+        function adjustLayout() {
+            if (window.innerWidth > 1200) {
+                container.classList.add('large-screen');
+            } else {
+                container.classList.remove('large-screen');
+            }
+        }
+
+        window.addEventListener('resize', adjustLayout);
+        document.addEventListener('DOMContentLoaded', adjustLayout);
+
         document.getElementById('downloadBtn').addEventListener('click', function(event) {
             event.preventDefault();
-
             fetch('https://api.github.com/repos/danlachoi/RezWare/releases/latest')
                 .then(response => response.json())
                 .then(data => {
-                    const downloadUrl = data.assets[0].browser_download_url;
-                    const link = document.createElement('a');
-                    link.href = downloadUrl;
-                    link.download = ''; // Optionally specify the file name
-                    link.click();
+                    if (data.assets && data.assets.length > 0) {
+                        const downloadUrl = data.assets[0].browser_download_url;
+                        const link = document.createElement('a');
+                        link.href = downloadUrl;
+                        link.download = ''; // Optionally specify the file name
+                        link.click();
+                    } else {
+                        console.error('No downloadable assets found.');
+                    }
                 })
                 .catch(error => {
                     console.error('Error fetching the release data:', error);
                 });
         });
 
-        // Track mouse position and update custom properties for dynamic background effect
         document.addEventListener('mousemove', (event) => {
             const mouseX = (event.clientX / window.innerWidth) * 100;
             const mouseY = (event.clientY / window.innerHeight) * 100;
-
             document.documentElement.style.setProperty('--mouse-x', `${mouseX}%`);
             document.documentElement.style.setProperty('--mouse-y', `${mouseY}%`);
+        });
+
+        const guiImage = document.querySelector('.gui-image');
+
+        guiImage.addEventListener('mousemove', (e) => {
+            const rect = guiImage.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            const mouseX = e.clientX - centerX;
+            const mouseY = e.clientY - centerY;
+
+            const maxTilt = 15;
+            const tiltX = (mouseY / (rect.height / 2)) * maxTilt;
+            const tiltY = -(mouseX / (rect.width / 2)) * maxTilt;
+
+            guiImage.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+            guiImage.classList.add('interactive');
+        });
+
+        guiImage.addEventListener('mouseleave', () => {
+            guiImage.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+            guiImage.classList.remove('interactive');
         });
     </script>
 </body>
