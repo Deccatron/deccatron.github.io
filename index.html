@@ -424,20 +424,14 @@
         document.getElementById('downloadBtn').addEventListener('click', function(event) {
             event.preventDefault();
         
-            // Define the path to the file in the same directory
-            const downloadUrl = './Codeine.exe';
-            const link = document.createElement('a');
-            link.href = downloadUrl;
-            link.download = 'Codeine.exe'; // Specify the file name for download
-            link.click();
-        });
+        document.getElementById('downloadBtn').addEventListener('click', function(event) {
+            event.preventDefault();
+        
+            // Define the URL to the Mega.nz link
+            const megaUrl = 'https://mega.nz/folder/cxIwVB7S#T9YjlkNoYzzqoq87lYIMzg';
+            window.location.href = megaUrl; // Redirects the user to the link
+});
 
-        document.addEventListener('mousemove', (event) => {
-            const mouseX = (event.clientX / window.innerWidth) * 100;
-            const mouseY = (event.clientY / window.innerHeight) * 100;
-            document.documentElement.style.setProperty('--mouse-x', `${mouseX}%`);
-            document.documentElement.style.setProperty('--mouse-y', `${mouseY}%`);
-        });
 
         const guiImage = document.querySelector('.gui-image');
 
