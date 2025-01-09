@@ -423,22 +423,13 @@
 
         document.getElementById('downloadBtn').addEventListener('click', function(event) {
             event.preventDefault();
-            fetch('https://api.github.com/repos/danlachoi/Codeine/releases/latest')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.assets && data.assets.length > 0) {
-                        const downloadUrl = data.assets[0].browser_download_url;
-                        const link = document.createElement('a');
-                        link.href = downloadUrl;
-                        link.download = ''; // Optionally specify the file name
-                        link.click();
-                    } else {
-                        console.error('No downloadable assets found.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching the release data:', error);
-                });
+        
+            // Define the path to the file in the same directory
+            const downloadUrl = './Codeine.exe';
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = 'Codeine.exe'; // Specify the file name for download
+            link.click();
         });
 
         document.addEventListener('mousemove', (event) => {
