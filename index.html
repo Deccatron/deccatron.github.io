@@ -390,13 +390,13 @@
     <div class="container">
         <h1>Codeine an external script utility <span style="color: #8B00FF;">after Byfron</span></h1>
         <p class="description">Unc 89, Lvl 3</p>
-        <img src="screenshot.png" alt="RezWare GUI" class="gui-image">
+        <img src="screenshot.png" alt="Codeine GUI" class="gui-image">
         <div class="button-group">
-            <a href="https://discord.gg/RezWare" class="button">Discord</a>
+            <a href="https://discord.gg/Codeine" class="button">Discord</a>
             <a href="#" class="button download-button" id="downloadBtn">Download</a>
         </div>
         <p class="credits">Developed By @AceVincente</p>
-        <p class="copyright">Copyright © 2024 RezWare Team</p>
+        <p class="copyright">Copyright © 2024 Codeine Team</p>
     </div>
 
     <div class="website-by">
@@ -423,7 +423,7 @@
 
         document.getElementById('downloadBtn').addEventListener('click', function(event) {
             event.preventDefault();
-            fetch('https://api.github.com/repos/danlachoi/RezWare/releases/latest')
+            fetch('https://api.github.com/repos/danlachoi/Codeine/releases/latest')
                 .then(response => response.json())
                 .then(data => {
                     if (data.assets && data.assets.length > 0) {
