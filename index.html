@@ -3,457 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codeine</title>
+    <title>Codeine API</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-primary: #0f0f0f;
-            --bg-secondary: #0f0f0f;
-            --text-primary: #f0f0f0;
-            --text-secondary: #a0a0a0;
-            --accent-color: #6a11cb;
-            --accent-color-hover: #8e43e7;
-            --button-dark: #1a1a1a;
-            --button-hover: #2a2a2a;
-            --glow-color-1: rgba(106, 17, 203, 0.2);
-            --glow-color-2: rgba(5, 28, 68, 0.2);
-            --glow-color-3: rgba(2, 70, 47, 0.15);
-            --gui-glow-color: rgba(110, 33, 182, 0.5);
-        }
-
-        * {
+        /* Body and Basic Styles */
+        body {
+            font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            user-select: none;
-        }
-
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: system-ui, -apple-system, Arial, sans-serif;
-            min-height: 100vh;
+            color: white;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Header Styles */
+        .header-container {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Reduced gap to make the logo smaller */
+        }
+
+        .logo {
+            font-size: 20px; /* Reduced size of the logo text */
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1.5px;
+        }
+
+        .discord-icon {
+            width: 24px;
+            height: 24px;
+            fill: #7289da;
+            transition: all 0.3s ease;
+        }
+
+        .discord-icon:hover {
+            transform: scale(1.1);
+        }
+
+        /* Main Container */
+        .main-container {
             text-align: center;
             position: relative;
-            overflow: hidden;
-            padding: 0 1rem;
+            z-index: 5;
+            padding: 0 20px;
         }
 
-        .website-by {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            z-index: 11;
-            animation: fadeIn 1s ease 1.2s forwards;
-            opacity: 0;
+        .content-wrapper {
+            margin-top: 100px;
         }
 
-        .author-link {
-            color: var(--accent-color);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .author-link:hover {
-            color: #631966;
-        }
-
-        .background {
-            background: 
-                linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%),
-                repeating-linear-gradient(
-                    45deg, 
-                    transparent, 
-                    transparent 50px, 
-                    rgba(18, 18, 38, 0.05) 50px, 
-                    rgba(18, 18, 38, 0.05) 100px
-                );
-            background-blend-mode: overlay;
-            box-shadow: 
-                0 -50px 100px -20px rgba(93, 63, 221, 0.1) inset,
-                0 50px 100px -20px rgba(37, 37, 90, 0.1) inset;
-        }
-
-        .background::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(93, 63, 221, 0.1), transparent 30%),
-                radial-gradient(circle at 80% 20%, rgba(37, 37, 90, 0.1), transparent 30%);
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
-        .background::after {
-            background: 
-                radial-gradient(
-                    circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
-                    var(--glow-color-1) 0%, 
-                    transparent 50%
-                );
-            opacity: 0.3;
-            filter: blur(60px);
-        }
-
-        .aurora {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .gui-image {
-            transition: transform 0.2s ease-out, box-shadow 0.3s ease;
-            transform-style: preserve-3d;
-            will-change: transform, box-shadow;
-            width: 200%;
-            max-width: 620px;
-            margin: 2rem auto;
-            display: block;
-            box-shadow: 0 0 30px var(--gui-glow-color);
-            animation: pulseGlow 5s infinite alternate;
-        }
-
-        .gui-image.interactive {
-            box-shadow: 0 0 50px var(--gui-glow-color);
-        }
-
-        .aurora__item {
-            overflow: hidden;
-            position: absolute;
-            width: 60%;
-            height: 60%;
-            background: var(--glow-color-1);
-            filter: blur(90px);
-            mix-blend-mode: screen;
-            opacity: 0.4;
-            animation: auroraWave 40s ease infinite;
-        }
-
-        .aurora__item:nth-child(1) {
-            top: -50%;
-            background: var(--glow-color-1);
-            animation-delay: 0s;
-        }
-
-        .aurora__item:nth-child(2) {
-            top: 20%;
-            right: -30%;
-            background: var(--glow-color-2);
-            animation-delay: -5s;
-        }
-
-        .aurora__item:nth-child(3) {
-            bottom: -10%;
-            left: 20%;
-            background: var(--glow-color-3);
-            animation-delay: -10s;
-        }
-
-        h1 {
-            font-size: clamp(1.5rem, 4vw, 2rem);
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
-            animation: fadeInDown 1s ease forwards;
-            padding: 0 1rem;
-        }
-
-        .description {
-            color: var(--accent-color);
-            font-size: clamp(0.9rem, 1.5vw, 1rem);
-            margin-bottom: 2rem;
-            font-weight: 600;
-            text-transform: uppercase;
+        .main-title {
+            font-size: 80px; /* Increased size of the main title */
+            font-weight: 900;
             letter-spacing: 1px;
-            animation: fadeIn 1s ease 0.3s forwards;
-            opacity: 0;
-            padding: 0 1rem;
+            margin-bottom: 20px;
+            animation: fadeIn 1.5s ease-in-out;
         }
 
-        .button-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
-            animation: fadeInUp 1s ease 0.6s forwards;
-            opacity: 0;
+        .subtitle {
+            font-size: 16px; /* Reduced size to fit on one line */
+            font-weight: 700;
+            color: #aaaaaa;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px; /* Reduced letter-spacing to help fit the text */
+            white-space: nowrap; /* Prevents text from wrapping */
+            overflow: hidden; /* Ensures text doesn't overflow */
+            text-overflow: ellipsis; /* Adds ellipsis if text overflows */
         }
 
-        .button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            text-decoration: none;
-            font-weight: 600;
-            color: var(--text-primary);
-            background-color: var(--button-dark);
-            transition: all 0.3s ease;
-            border: 1px solid #333;
-            min-width: 140px;
-            justify-content: center;
+        .coming-soon {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff8c00;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.85rem;
-            position: relative;
-            overflow: hidden;
+            letter-spacing: 3px;
+            animation: glowEffect 2s infinite alternate, fadeIn 1.5s ease-in-out;
+            display: inline-block;
         }
 
-        .button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: 0.5s;
-        }
-
-        .button:hover::before {
-            left: 100%;
-        }
-
-        .button:hover {
-            background-color: var(--button-hover);
-            transform: translateY(-2px);
-            border-color: var(--accent-color);
-        }
-
-        .download-button {
-            background-color: var(--accent-color);
-            border-color: var(--accent-color);
-        }
-
-        .download-button:hover {
-            background-color: #692a94;
-        }
-
-        .credits {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            margin-top: 1.5rem;
-            animation: fadeIn 1s ease 0.9s forwards;
-            opacity: 0;
-            letter-spacing: 1px;
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes glowEffect {
+            0% {
+                text-shadow: 0 0 10px #ff8c00, 0 0 20px #ff8c00, 0 0 30px #ff8c00;
+            }
+            100% {
+                text-shadow: 0 0 20px #ff8c00, 0 0 30px #ff8c00, 0 0 40px #ff8c00;
+            }
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes auroraWave {
-            0%, 100% {
-                transform: translate(0%, 0%) rotate(0deg) scale(1);
-            }
-            25% {
-                transform: translate(10%, 10%) rotate(45deg) scale(1.2);
-            }
-            50% {
-                transform: translate(-5%, 15%) rotate(90deg) scale(1.1);
-            }
-            75% {
-                transform: translate(-15%, -5%) rotate(45deg) scale(0.9);
-            }
-        }
-
-        @keyframes floatingOrbs {
             0% {
-                transform: translateY(0) rotate(0deg);
+                opacity: 0;
             }
             100% {
-                transform: translateY(-100%) rotate(360deg);
+                opacity: 1;
             }
-        }
-
-        @keyframes gradientShift {
-            0%, 100% {
-                transform: scale(1) rotate(0deg);
-            }
-            50% {
-                transform: scale(1.1) rotate(1deg);
-            }
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% {
-                box-shadow: 0 0 30px var(--gui-glow-color);
-            }
-            50% {
-                box-shadow: 0 0 40px var(--gui-glow-color);
-            }
-        }
-
-        @media (max-width: 640px) {
-            .button-group {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .button {
-                width: 100%;
-                max-width: 200px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.25rem;
-            }
-
-            .description {
-                font-size: 0.9rem;
-            }
-
-            .credits {
-                font-size: 0.75rem;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-
-        .copyright {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            margin-top: 4.5rem; /* Adjusted margin to position footer lower */
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 1s ease 1.2s forwards;
-            opacity: 0;
-        }
-
-        .copyright::before,
-        .copyright::after {
-            content: "";
-            flex-grow: 1;
-            height: 1px;
-            background-color: var(--text-secondary);
-            margin: 0 1rem;
-        }
-
-        /* New dynamic style classes */
-        .large-screen .gui-image {
-            max-width: 500px;
-        }
-
-        .large-screen h1 {
-            font-size: 2.5rem;
-        }
-
-        .large-screen .description {
-            font-size: 1.5rem;
         }
     </style>
 </head>
 <body>
-    <div class="background"></div>
-    <div class="aurora">
-        <div class="aurora__item"></div>
-        <div class="aurora__item"></div>
-        <div class="aurora__item"></div>
-    </div>
-    <div class="container">
-        <h1>Codeine an external script utility <span style="color: #8B00FF;">after Byfron</span></h1>
-        <p class="description">Unc 89, Lvl 3</p>
-        <img src="screenshot.png" alt="Codeine GUI" class="gui-image">
-        <div class="button-group">
-            <a href="https://discord.gg/EsPKxeyf" class="button">Discord</a>
-            <a href="#" class="button download-button" id="downloadBtn">Download</a>
-        </div>
-        <p class="credits">Developed By @AceVincente</p>
-        <p class="copyright">Copyright © 2024 Codeine Team</p>
+    <div class="accent-glow glow-1"></div>
+    <div class="accent-glow glow-2"></div>
+    <div class="accent-glow glow-3"></div>
+    
+    <div class="header-container">
+        <header class="header">
+            <a href="/" class="logo">Codeine API</a>
+            <a href="https://discord.gg/usercreation" target="_blank">
+                <svg class="discord-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.17.33.26c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
+                </svg>
+            </a>
+        </header>
     </div>
 
-    <div class="website-by">
-        Website by <a href="#" class="author-link">Acevincente</a>
+    <div class="container main-container">
+        <div class="content-wrapper">
+            <h1 class="main-title">Codeine API</h1>
+            <p class="subtitle">A predefined API for internal Roblox executors</p>
+            <p class="subtitle">Coming Soon...</p>
+        </div>
     </div>
 
     <script>
-        document.addEventListener('contextmenu', function(event) {
-            event.preventDefault();
+        const glows = document.querySelectorAll('.accent-glow');
+        glows.forEach((glow) => {
+            glow.style.transform = 'translate(-50%, -50%)';
         });
 
-        const container = document.querySelector('.container');
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
 
-        function adjustLayout() {
-            if (window.innerWidth > 1200) {
-                container.classList.add('large-screen');
-            } else {
-                container.classList.remove('large-screen');
-            }
-        }
-
-        window.addEventListener('resize', adjustLayout);
-        document.addEventListener('DOMContentLoaded', adjustLayout);
-
-        document.getElementById('downloadBtn').addEventListener('click', function(event) {
-            event.preventDefault();
-        
-        document.getElementById('downloadBtn').addEventListener('click', function(event) {
-            event.preventDefault();
-        
-            // Define the URL to the Mega.nz link
-            const megaUrl = 'https://mega.nz/folder/cxIwVB7S#T9YjlkNoYzzqoq87lYIMzg';
-            window.location.href = megaUrl; // Redirects the user to the link
-        });
-
-
-        const guiImage = document.querySelector('.gui-image');
-
-        guiImage.addEventListener('mousemove', (e) => {
-            const rect = guiImage.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-
-            const mouseX = e.clientX - centerX;
-            const mouseY = e.clientY - centerY;
-
-            const maxTilt = 15;
-            const tiltX = (mouseY / (rect.height / 2)) * maxTilt;
-            const tiltY = -(mouseX / (rect.width / 2)) * maxTilt;
-
-            guiImage.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
-            guiImage.classList.add('interactive');
-        });
-
-        guiImage.addEventListener('mouseleave', () => {
-            guiImage.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-            guiImage.classList.remove('interactive');
+            glows.forEach((glow, index) => {
+                const moveX = (mouseX - centerX) * 0.02 * (index + 1);
+                const moveY = (mouseY - centerY) * 0.02 * (index + 1);
+                glow.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
+            });
         });
     </script>
 </body>
